@@ -14,5 +14,11 @@ module.exports = {
         project: './tsconfig.json',
       },
     },
+    {
+      files: ['stories/**/*.ts', 'stories/**/*.tsx'],
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+      },
+    },
   ],
 }
