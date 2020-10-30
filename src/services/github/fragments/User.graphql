@@ -1,0 +1,10 @@
+fragment User on User {
+  id
+  bio
+  avatarUrl(size: 64)
+  pinnedItems(last: 6, types: [REPOSITORY]) {
+    nodes {
+      ...Repository
+    }
+  }
+}

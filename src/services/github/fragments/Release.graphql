@@ -1,0 +1,11 @@
+fragment Release on Release {
+  id
+  createdAt
+  updatedAt
+  publishedAt
+  tagName
+  name
+  description
+  url
+  resourcePath
+}

@@ -1,0 +1,9 @@
+fragment License on License {
+  id
+  key
+  name
+  nickname
+  url
+  body
+  description
+}

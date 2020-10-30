@@ -1,0 +1,8 @@
+fragment RepositoryTopic on RepositoryTopic {
+  id
+  url
+  resourcePath
+  topic {
+    ...Topic
+  }
+}

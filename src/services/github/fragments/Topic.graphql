@@ -1,0 +1,5 @@
+fragment Topic on Topic {
+  id
+  name
+  stargazerCount
+}

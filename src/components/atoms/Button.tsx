@@ -1,9 +1,9 @@
-import * as React from 'react'
-
-type Props = {
+type ButtonProps = {
   text: string
 }
 
-export default ({ text }: Props): JSX.Element => (
-  <button type="button">{text}</button>
+const Button: React.FunctionComponent<ButtonProps> = (props) => (
+  <button type="button">{props.text}</button>
 )
+
+export default Button

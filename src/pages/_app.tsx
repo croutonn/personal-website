@@ -1,8 +1,8 @@
 import { AppType } from 'next/dist/next-server/lib/utils'
 
-const App: AppType = ({ Component, pageProps }) => {
+const App: AppType = (props) => {
   // eslint-disable-next-line react/jsx-props-no-spreading
-  return <Component {...pageProps} />
+  return <props.Component {...props.pageProps} />
 }
 
 export default App

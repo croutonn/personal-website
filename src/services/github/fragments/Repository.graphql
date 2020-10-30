@@ -1,0 +1,30 @@
+fragment Repository on Repository {
+  id
+  name
+  url
+  resourcePath
+  sshUrl
+  usesCustomOpenGraphImage
+  openGraphImageUrl
+  createdAt
+  updatedAt
+  pushedAt
+  description
+  stargazerCount
+  forkCount
+  homepageUrl
+  isTemplate
+  licenseInfo {
+    ...License
+  }
+  releases(last: 1, orderBy: { field: CREATED_AT, direction: DESC }) {
+    nodes {
+      ...Release
+    }
+  }
+  repositoryTopics(last: 10) {
+    nodes {
+      ...RepositoryTopic
+    }
+  }
+}

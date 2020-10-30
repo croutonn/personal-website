@@ -1,2 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-export const HELLO = 'World!'
+export const QUERIES: Record<string, (...args: any) => string> = {
+  GitHubGetUser: (user: string) => `GitHub/GetUser/${user}`,
+}
