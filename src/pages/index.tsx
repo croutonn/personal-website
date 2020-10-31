@@ -1,11 +1,12 @@
 import { ParsedUrlQuery } from 'querystring'
 
-import { GetStaticProps, NextPage } from 'next'
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import React from 'react'
 
 import { QUERIES } from '@/lib/constants'
 import { GetUserQuery, githubClient } from '@/services/github'
+import { Page } from '@/types'
 
 type HomePageParams = ParsedUrlQuery
 
@@ -32,7 +33,7 @@ const getStaticProps: GetStaticProps<
   }
 }
 
-const HomePage: NextPage<HomePageProps> = (props): JSX.Element => {
+const HomePage: Page<HomePageProps> = (props) => {
   const githubUserId = process.env.NEXT_PUBLIC_GITHUB_USER as string
   const githubGetUser = githubClient.useGetUser(
     QUERIES.GitHubGetUser(githubUserId),
@@ -249,10 +250,10 @@ const HomePage: NextPage<HomePageProps> = (props): JSX.Element => {
         html,
         body {
           padding: 0;
-          margin: 0;
           font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
             Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
             sans-serif;
+          margin: 0;
         }
 
         * {
