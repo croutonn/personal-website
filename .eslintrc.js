@@ -15,6 +15,13 @@ module.exports = {
       },
     },
     {
+      files: ['**/*.d.ts'],
+      rules: {
+        'import/export': 'off',
+        'import/group-exports': 'off',
+      },
+    },
+    {
       files: ['stories/**/*.ts', 'stories/**/*.tsx'],
       rules: {
         'import/no-extraneous-dependencies': 'off',
