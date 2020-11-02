@@ -1,5 +1,5 @@
 /**
- * @type {import('next-translate/types')}
+ * @type {import('next-translate').I18nConfig}
  */
 const config = {
   locales: ['en', 'ja'],
