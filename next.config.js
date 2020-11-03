@@ -1,4 +1,11 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+const withPlugins = require('next-compose-plugins')
+
 const { locales, defaultLocale } = require('./i18n')
+
+const plugins = []
 
 /**
  * @typedef {import('next-seo').DefaultSeoProps} DefaultSeoProps
@@ -63,4 +70,4 @@ const config = {
   },
 }
 
-module.exports = config
+module.exports = withPlugins([[withBundleAnalyzer(config)], ...plugins])
