@@ -1,7 +1,9 @@
+const { locales, defaultLocale } = require('./i18n')
+
 module.exports = {
   i18n: {
-    locales: ['en', 'ja'],
-    defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE,
+    locales,
+    defaultLocale,
   },
 
   publicRuntimeConfig: {

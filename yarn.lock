@@ -1918,12 +1918,12 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@croutonn/eslint-config@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@croutonn/eslint-config/-/eslint-config-1.0.6.tgz#ba278b0afdad24f28e7abeb8a369df15b37aa6e8"
-  integrity sha512-TTSFSwtaUl29tlSAJE1RfMxf+EEe/XH5QU7DXo1OBtRH+FdwZZ7ixwaltVBZc0aUsTeRTV4Kaxy+drQ0HH7oLw==
+"@croutonn/eslint-config@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@croutonn/eslint-config/-/eslint-config-1.0.9.tgz#c5b637302dd608b3e24b8f2870ab35f19f6e0b4d"
+  integrity sha512-5olD0JiBIBNvMh6SghFesjwEzeHgOZNZ/uTGOaOa8UMMjJyaw33eCf2CGkNk7lW772kyzHQ5YsXK9EVq//vzmg==
   dependencies:
-    "@croutonn/eslint-plugin" "^0.2.4"
+    "@croutonn/eslint-plugin" "^0.2.5"
     "@typescript-eslint/eslint-plugin" "^4.6.0"
     eslint-config-airbnb "^18.2.0"
     eslint-config-airbnb-typescript "^12.0.0"
@@ -1933,10 +1933,14 @@
     eslint-plugin-react "^7.21.5"
     eslint-plugin-react-hooks "^4.2.0"
 
-"@croutonn/eslint-plugin@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@croutonn/eslint-plugin/-/eslint-plugin-0.2.4.tgz#dff1b543318dafe762ab523b9f448e4b1b9c136e"
-  integrity sha512-e5wYlQBPAUp3mzfwevrwRSEsQsAB2wG6abL48lR0vv0e3VC46VDvrQDy97pwQ8DTuILVy/Ey43MBhrndgZwcGA==
+"@croutonn/eslint-plugin@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@croutonn/eslint-plugin/-/eslint-plugin-0.2.5.tgz#4be13a4e01d89c948110c5957faff079e0ba35d5"
+  integrity sha512-mVSgvmvFxCAB/4siek4mcJamibK+YevotPncY3ecY3TDVELUQzF/L2IRFIYepO6LtwNriKi3Aov6EG1KzmTnLw==
+  dependencies:
+    array-includes "^3.1.1"
+    eslint-plugin-jsx-a11y "^6.4.1"
+    jsx-ast-utils "^3.1.0"
 
 "@emotion/cache@^10.0.27":
   version "10.0.29"
@@ -11256,6 +11260,11 @@ next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
+
+next-translate@^0.19.3:
+  version "0.19.3"
+  resolved "https://registry.yarnpkg.com/next-translate/-/next-translate-0.19.3.tgz#fb31fb663eca58f10e49601b6f2384fc5fd12df8"
+  integrity sha512-mtPgv1gti4GS4nWDNQ+JTV54dBItTbzBWM219gp3qYy1qwJ15hwksWpLNkPHj6GPTjMn2ZVRCHRIEFQ4/X2Ccw==
 
 next@^10.0.0:
   version "10.0.0"

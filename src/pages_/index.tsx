@@ -1,6 +1,7 @@
 import { ParsedUrlQuery } from 'querystring'
 
 import { GetStaticProps } from 'next'
+import Trans from 'next-translate/Trans'
 import Head from 'next/head'
 import React from 'react'
 
@@ -54,7 +55,10 @@ const HomePage: Page<HomePageProps> = (props) => {
 
       <main>
         <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          <Trans
+            i18nKey="home:title"
+            components={[<a href="https://nextjs.org" />]}
+          />
         </h1>
 
         <p className="description">
