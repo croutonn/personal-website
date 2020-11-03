@@ -5,7 +5,7 @@ import appRootPath from 'app-root-path'
 import {
   LOCALE_PATTERN,
   MARKDOWN_FILE_EXTENSION_PATTERN,
-} from '@/services/blog/utils'
+} from '@/services/blog'
 
 const blogDirectoryPath = appRootPath.resolve(
   `/${process.env.CONTENT_DIRECTORY as string}/${

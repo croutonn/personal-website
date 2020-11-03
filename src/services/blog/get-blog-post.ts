@@ -3,7 +3,7 @@ import { promises as fs } from 'fs'
 import frontMatter from 'front-matter'
 import LRU from 'lru-cache'
 
-import resolveBlogPost from '@/services/blog/resolve-blog-post'
+import { resolveBlogPost } from '@/services/blog'
 import { Maybe, BlogPost, BlogPostFrontMatter } from '@/types'
 
 const blogPostsCache = new LRU<string, BlogPost>({

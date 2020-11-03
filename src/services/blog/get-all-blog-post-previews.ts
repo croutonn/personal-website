@@ -7,7 +7,7 @@ import frontMatter from 'front-matter'
 import globby from 'globby'
 
 import concurrecyPromise from '@/lib/concurrency-promise'
-import { filePathToLocale, LOCALE_PATTERN } from '@/services/blog/utils'
+import { filePathToLocale, LOCALE_PATTERN } from '@/services/blog'
 import { BlogPostFrontMatter, BlogPostPreview } from '@/types'
 
 const blogDirectoryPath = appRootPath.resolve(

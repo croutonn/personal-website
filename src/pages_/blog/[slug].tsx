@@ -8,8 +8,7 @@ import DocumentMetaTags from '@/components/molecules/DocumentMetaTags'
 import { Authors } from '@/lib/constants'
 import markdownToReactNode from '@/lib/markdown'
 import renderTitle from '@/lib/render-title'
-import getBlogPost from '@/services/blog/get-blog-post'
-import getBlogPostRoutes from '@/services/blog/get-blog-post-routes'
+import { getBlogPost, getBlogPostRoutes } from '@/services/blog'
 import {
   AlternateLinkData,
   isNotFalsy,

@@ -1,12 +1,12 @@
 import { NextApiHandler } from 'next'
 
-import getAllBlogPostPreviews from '@/services/blog/get-all-blog-post-previews'
 import {
+  getAllBlogPostPreviews,
   sanitizeInt,
   sanitizeLocale,
   sanitizeOrder,
   sanitizeOrderBy,
-} from '@/services/blog/sanitize'
+} from '@/services/blog'
 import { BlogPostPreview, GetBlogPostPreviewsOptions } from '@/types'
 
 type ResponseBodyType = unknown
