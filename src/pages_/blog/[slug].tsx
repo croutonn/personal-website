@@ -67,7 +67,7 @@ const getStaticPaths: GetStaticPaths<BlogPostPageParams> = async (context) => {
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   }
 }
 
