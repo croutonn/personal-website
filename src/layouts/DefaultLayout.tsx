@@ -14,6 +14,7 @@ const DefaultLayout: React.FunctionComponent<DefaultLayoutProps> = (props) => {
             router.locale === router.defaultLocale ? '/' : `/${router.locale}`
           }
         />
+        <link rel="icon" href="/favicon.ico" />
         <link rel="license" href="#license" />
       </Head>
       {props.children}

@@ -1,9 +1,10 @@
+type Falsy = null | undefined | 0 | ''
 type Maybe<T> = T | null
-type Nullish = null | undefined
 type MaybeArray<T> = T | T[]
+type Nullish = null | undefined
 
-const isNotFalsy = <T = unknown>(x: T | null | undefined | 0 | ''): x is T =>
-  Boolean(x)
+const isFalsy = <T = unknown>(x: T | Falsy): x is Falsy => !x
+const isNotFalsy = <T = unknown>(x: T | Falsy): x is T => Boolean(x)
 
 export type { Maybe, MaybeArray, Nullish }
-export { isNotFalsy }
+export { isFalsy, isNotFalsy }

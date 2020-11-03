@@ -13,6 +13,17 @@ module.exports = {
       parserOptions: {
         project: './tsconfig.json',
       },
+      rules: {
+        'react/jsx-props-no-spreading': [
+          'error',
+          {
+            html: 'enforce',
+            custom: 'enforce',
+            explicitSpread: 'ignore',
+            exceptions: ['Component', 'props.Component', 'NextSeo'],
+          },
+        ],
+      },
     },
     {
       files: ['**/*.d.ts'],

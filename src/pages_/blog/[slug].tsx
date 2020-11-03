@@ -1,22 +1,12 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
-import getConfig from 'next/config'
-import Head from 'next/head'
+import { NextSeo } from 'next-seo'
 import { useMemo } from 'react'
 
-import AlternateLinks from '@/components/molecules/AlternateLinks'
-import DocumentMetaTags from '@/components/molecules/DocumentMetaTags'
+import { useSEO } from '@/hooks'
 import { Authors } from '@/lib/constants'
 import markdownToReactNode from '@/lib/markdown'
-import renderTitle from '@/lib/render-title'
 import { getBlogPost, getBlogPostRoutes } from '@/services/blog'
-import {
-  AlternateLinkData,
-  isNotFalsy,
-  BlogPost,
-  Page,
-  DocumentMetaData,
-  PublicRuntimeConfig,
-} from '@/types'
+import { BlogPost, isFalsy, Page } from '@/types'
 
 type BlogPostPageParams = {
   slug: string
@@ -27,42 +17,31 @@ type BlogPostPageProps = {
   locale: string
   defaultLocale: string
   post: BlogPost
-  alternateLinks: AlternateLinkData[]
-}
-
-const { publicRuntimeConfig } = getConfig() as {
-  publicRuntimeConfig: PublicRuntimeConfig
+  notFoundLocales: string[]
 }
 
 const BlogPostPage: Page<BlogPostPageProps> = (props) => {
-  const isFallbacked = props.locale !== props.post.locale
-  const metaData: DocumentMetaData = {
-    type: 'blog',
-    url: `${publicRuntimeConfig.site.url}${
-      props.locale === props.defaultLocale ? '' : `/${props.locale}`
-    }/blog/${props.slug}`,
-    title: props.post.title,
-    description: props.post.description,
-    creator: Authors[props.post.author].twitter,
-  }
-
   const postContent = useMemo(() => markdownToReactNode(props.post.content), [
     props.post.content,
   ])
 
+  const seo = useSEO(
+    {
+      title: props.post.title,
+      description: props.post.description,
+      openGraph: {
+        type: 'article',
+      },
+      twitter: {
+        handle: `@${Authors[props.post.author].twitter}`,
+      },
+    },
+    props.notFoundLocales
+  )
+
   return (
     <>
-      {isFallbacked && (
-        <Head>
-          <link rel="canonical" href={`/blog/${props.slug}`} />
-        </Head>
-      )}
-      <Head>
-        <title>{renderTitle(props.post.title)}</title>
-      </Head>
-      <AlternateLinks alternates={props.alternateLinks} />
-      <DocumentMetaTags locale={props.locale} data={metaData} />
-
+      <NextSeo {...seo} />
       <article>
         <header>
           <h1>{props.post.title}</h1>
@@ -102,10 +81,9 @@ const getStaticProps: GetStaticProps<
   const defaultLocale = context.defaultLocale as string
   const pageSlug = context.params.slug
   const pageLocale = context.locale || defaultLocale
+  const locales = context.locales || [pageLocale]
   const localePosts = await Promise.all(
-    (context.locales || [pageLocale]).map((locale) =>
-      getBlogPost(pageSlug, locale)
-    )
+    locales.map((locale) => getBlogPost(pageSlug, locale))
   )
   const post =
     localePosts.find((localePost) => localePost?.locale === pageLocale) ??
@@ -118,15 +96,9 @@ const getStaticProps: GetStaticProps<
     locale: pageLocale,
     defaultLocale,
     post,
-    alternateLinks: localePosts.filter(isNotFalsy).map(
-      (localePost): AlternateLinkData => ({
-        href: `${publicRuntimeConfig.site.url}${
-          localePost.locale === defaultLocale ? '' : `/${localePost.locale}`
-        }/blog/${pageSlug}`,
-        hrefLang: localePost.locale,
-        title: localePost.title,
-      })
-    ),
+    notFoundLocales: localePosts
+      .filter(isFalsy)
+      .map((_, index) => locales[index]),
   }
   return {
     props,

@@ -4,9 +4,11 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next-translate && next dev",
-    "build": "next-translate && next build",
+    "dev": "yarn translate && concurrently 'next dev' 'yarn translate:watch'",
+    "build": "yarn translate && next build",
     "start": "next start",
+    "translate": "next-translate",
+    "translate:watch": "chokidar 'src/pages_/**/*.tsx' -c 'yarn translate'",
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write .",
     "lint:script": "eslint . --ext ts --ext tsx --ext js",
@@ -46,6 +48,7 @@
     "graphql-request": "^3.3.0",
     "lru-cache": "^6.0.0",
     "next": "^10.0.0",
+    "next-seo": "^4.15.0",
     "next-translate": "^0.19.3",
     "polished": "^4.0.3",
     "react": "^17.0.1",
@@ -56,8 +59,7 @@
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.0.0",
     "swr": "^0.3.7",
-    "unified": "^9.2.0",
-    "utility-types": "^3.10.0"
+    "unified": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
@@ -81,6 +83,8 @@
     "babel-jest": "^26.6.1",
     "babel-loader": "^8.1.0",
     "babel-preset-react-app": "^10.0.0",
+    "chokidar-cli": "^2.1.0",
+    "concurrently": "^5.3.0",
     "dotenv-cli": "^4.0.0",
     "eslint": "^7.12.1",
     "graphql-codegen-plugin-typescript-swr": "^0.3.0",

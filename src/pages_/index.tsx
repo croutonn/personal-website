@@ -1,13 +1,14 @@
 import { ParsedUrlQuery } from 'querystring'
 
 import { GetStaticProps } from 'next'
+import { NextSeo } from 'next-seo'
 import Trans from 'next-translate/Trans'
-import Head from 'next/head'
-import React from 'react'
+import getConfig from 'next/config'
 
+import { useSEO } from '@/hooks'
 import { QUERIES } from '@/lib/constants'
 import { GetUserQuery, githubClient } from '@/services/github'
-import { Page } from '@/types'
+import { Page, PublicRuntimeConfig } from '@/types'
 
 type HomePageParams = ParsedUrlQuery
 
@@ -15,6 +16,10 @@ type HomePageProps = {
   initialData: {
     githubUser: GetUserQuery
   }
+}
+
+const { publicRuntimeConfig } = getConfig() as {
+  publicRuntimeConfig: PublicRuntimeConfig
 }
 
 const getStaticProps: GetStaticProps<
@@ -46,12 +51,14 @@ const HomePage: Page<HomePageProps> = (props) => {
     }
   )
 
+  const seo = useSEO({
+    title: publicRuntimeConfig.site.name,
+    titleTemplate: '%s',
+  })
+
   return (
     <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <NextSeo {...seo} />
 
       <main>
         <h1 className="title">
