@@ -6,3 +6,4 @@
 /coverage/*
 /storybook-static/*
 /src/pages/*
+/.linaria-cache/*

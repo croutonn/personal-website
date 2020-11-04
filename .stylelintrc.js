@@ -19,5 +19,6 @@ module.exports = {
       },
     ],
     'function-name-case': null,
+    'declaration-empty-line-before': null,
   },
 }

@@ -1,5 +1,6 @@
 **/node_modules/*
 /.github/*
+/.linaria-cache/*
 /.next/*
 /out/*
 /public/*

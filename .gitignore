@@ -15,6 +15,9 @@
 # next-translate
 src/pages
 
+# linaria
+/.linaria-cache/
+
 # production
 /build
 
