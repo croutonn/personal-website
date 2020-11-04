@@ -22,15 +22,10 @@ const withCSS = require('@zeit/next-css')({
   },
 })
 const withPlugins = require('next-compose-plugins')
-const withTM = require('next-transpile-modules')([
-  '@adobe/react-spectrum',
-  '@spectrum-icons/.*',
-  '@react-spectrum/.*',
-])
 
 const { locales, defaultLocale } = require('./i18n')
 
-const plugins = [withCSS, withTM]
+const plugins = [withCSS]
 
 /**
  * @typedef {import('next-seo').DefaultSeoProps} DefaultSeoProps

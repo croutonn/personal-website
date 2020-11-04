@@ -1,5 +1,3 @@
-import { defaultTheme, Provider as ThemeProvider } from '@adobe/react-spectrum'
-import { SSRProvider } from '@react-aria/ssr'
 import { DefaultSeo } from 'next-seo'
 import getConfig from 'next/config'
 import { AppType } from 'next/dist/next-server/lib/utils'
@@ -16,14 +14,10 @@ const App: AppType = (props) => {
 
   /* eslint-disable react/jsx-props-no-spreading */
   return (
-    <SSRProvider>
-      <ThemeProvider theme={defaultTheme} minHeight="100%">
-        <Layout>
-          <DefaultSeo {...publicRuntimeConfig.seo} />
-          <props.Component {...props.pageProps} />
-        </Layout>
-      </ThemeProvider>
-    </SSRProvider>
+    <Layout>
+      <DefaultSeo {...publicRuntimeConfig.seo} />
+      <props.Component {...props.pageProps} />
+    </Layout>
   )
   /* eslint-enable react/jsx-props-no-spreading */
 }

@@ -1,6 +1,5 @@
 import { ParsedUrlQuery } from 'querystring'
 
-import { Button } from '@adobe/react-spectrum'
 import { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
 import Trans from 'next-translate/Trans'
@@ -73,15 +72,15 @@ const HomePage: Page<HomePageProps> = (props) => {
           Get started by editing <code>pages/index.tsx</code>
         </p>
 
-        <Button
-          variant="primary"
-          onPress={() => {
+        <button
+          type="button"
+          onClick={() => {
             // eslint-disable-next-line no-alert
             window.alert('With typescript and Jest')
           }}
         >
           Test Button
-        </Button>
+        </button>
 
         <div className="grid">
           <a href="https://nextjs.org/docs" className="card">
