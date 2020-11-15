@@ -4,7 +4,7 @@ import frontMatter from 'front-matter'
 import LRU from 'lru-cache'
 
 import { resolveBlogPost } from '@/services/blog'
-import { Maybe, BlogPost, BlogPostFrontMatter } from '@/types'
+import { Maybe, BlogPost, BlogPostFrontMatter, Locale } from '@/types'
 
 const blogPostsCache = new LRU<string, BlogPost>({
   max: 512 * 1024, // 512KB
@@ -13,7 +13,7 @@ const blogPostsCache = new LRU<string, BlogPost>({
 
 const getBlogPost = async (
   slug: string,
-  locale: string
+  locale: Locale
 ): Promise<Maybe<BlogPost>> => {
   const filePath = await resolveBlogPost(slug, locale)
   if (!filePath) {

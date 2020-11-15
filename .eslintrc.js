@@ -26,6 +26,13 @@ module.exports = {
       },
     },
     {
+      files: ['test/**/*.test.ts', 'test/**/*.test.tsx'],
+      rules: {
+        'react/jsx-pascal-case': 'off',
+        'react/jsx-props-no-spreading': 'off',
+      },
+    },
+    {
       files: ['**/*.d.ts'],
       rules: {
         'import/export': 'off',

@@ -14,11 +14,11 @@ module.exports = {
     '^@/(.+)': '<rootDir>/src/$1',
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__mocks__/fileMock.js',
+    'next/config': '<rootDir>/test/__mocks__/next-server/config.js',
   },
   collectCoverageFrom: [
     '**/*.{ts,tsx}',
     '!**/node_modules/**',
-    '!**/.storybook/**',
     '!**/tests/**',
     '!**/coverage/**',
   ],

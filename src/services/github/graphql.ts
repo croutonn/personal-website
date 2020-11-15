@@ -19630,7 +19630,7 @@ export type GetFileQuery = { __typename?: 'Query' } & {
   repository: Maybe<
     { __typename?: 'Repository' } & {
       object: Maybe<
-        | ({ __typename?: 'Blob' } & Pick<Blob, 'id' | 'text'>)
+        | ({ __typename: 'Blob' } & Pick<Blob, 'id' | 'text'>)
         | { __typename?: 'Commit' }
         | { __typename?: 'Tag' }
         | { __typename?: 'Tree' }
@@ -19652,7 +19652,7 @@ export type GetFilesQuery = { __typename?: 'Query' } & {
         | { __typename?: 'Blob' }
         | { __typename?: 'Commit' }
         | { __typename?: 'Tag' }
-        | ({ __typename?: 'Tree' } & {
+        | ({ __typename: 'Tree' } & {
             entries: Maybe<
               Array<
                 { __typename?: 'TreeEntry' } & Pick<
@@ -20954,6 +20954,12 @@ export const GetFileDocument: DocumentNode = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: '__typename' },
+                              arguments: [],
+                              directives: [],
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                               arguments: [],
                               directives: [],
@@ -21085,6 +21091,12 @@ export const GetFilesDocument: DocumentNode = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: '__typename' },
+                              arguments: [],
+                              directives: [],
+                            },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'entries' },
