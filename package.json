@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
-    "@croutonn/eslint-config": "^1.0.11",
+    "@croutonn/eslint-config": "^1.0.12",
     "@graphql-codegen/cli": "^1.19.1",
     "@graphql-codegen/typescript": "^1.17.11",
     "@graphql-codegen/typescript-graphql-request": "^2.0.2",

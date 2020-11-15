@@ -36,8 +36,6 @@ module.exports = {
       files: ['src/services/*/graphql.ts'],
       rules: {
         'no-irregular-whitespace': 'off',
-        'import/exports-last': 'off',
-        'import/group-exports': 'off',
         '@croutonn//exports-last': 'off',
         '@croutonn/group-exports': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
