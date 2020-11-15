@@ -1,5 +1,9 @@
 import { print, DocumentNode } from 'graphql'
 import { GraphQLClient } from 'graphql-request'
+import useSWR, {
+  ConfigInterface as SWRConfigInterface,
+  keyInterface as SWRKeyInterface,
+} from 'swr'
 
 export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -21733,3 +21737,53 @@ export const getSdk = (
   }
 }
 export type Sdk = ReturnType<typeof getSdk>
+
+export const getSdkWithHooks = (
+  client: GraphQLClient,
+  withWrapper: SdkFunctionWrapper = defaultWrapper
+) => {
+  const sdk = getSdk(client, withWrapper)
+  const genKey = <V extends Record<string, unknown> = Record<string, unknown>>(
+    name: string,
+    object: V = {} as V
+  ): SWRKeyInterface => [
+    name,
+    ...Object.keys(object)
+      .sort()
+      .map((key) => object[key]),
+  ]
+  return {
+    ...sdk,
+    useGetFile(
+      variables: GetFileQueryVariables,
+      config?: SWRConfigInterface<GetFileQuery>
+    ) {
+      return useSWR<GetFileQuery>(
+        genKey<GetFileQueryVariables>('GetFile', variables),
+        () => sdk.GetFile(variables),
+        config
+      )
+    },
+    useGetFiles(
+      variables: GetFilesQueryVariables,
+      config?: SWRConfigInterface<GetFilesQuery>
+    ) {
+      return useSWR<GetFilesQuery>(
+        genKey<GetFilesQueryVariables>('GetFiles', variables),
+        () => sdk.GetFiles(variables),
+        config
+      )
+    },
+    useGetUser(
+      variables: GetUserQueryVariables,
+      config?: SWRConfigInterface<GetUserQuery>
+    ) {
+      return useSWR<GetUserQuery>(
+        genKey<GetUserQueryVariables>('GetUser', variables),
+        () => sdk.GetUser(variables),
+        config
+      )
+    },
+  }
+}
+export type SdkWithHooks = ReturnType<typeof getSdkWithHooks>
