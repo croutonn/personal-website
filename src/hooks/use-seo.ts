@@ -14,7 +14,7 @@ const { publicRuntimeConfig } = getConfig() as {
 const createOpenGraphConfiguration = (router: NextRouter): OpenGraph => {
   const mergedOpenGraph = {
     ...publicRuntimeConfig.seo.openGraph,
-    locale: publicRuntimeConfig.localeMap[router.locale as string],
+    locale: publicRuntimeConfig.i18n.localeMap[router.locale as string],
   }
   return mergedOpenGraph
 }

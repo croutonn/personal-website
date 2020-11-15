@@ -5,5 +5,3 @@ yarn.lock
 package-lock.json
 public
 coverage
-storybook-static
-src/pages

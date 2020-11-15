@@ -1,54 +1,52 @@
-import { ParsedUrlQuery } from 'querystring'
-
 import { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
-import Trans from 'next-translate/Trans'
 import getConfig from 'next/config'
 
 import { useSEO } from '@/hooks'
-import { QUERIES } from '@/lib/constants'
 import { GetUserQuery, githubClient } from '@/services/github'
-import { Page, PublicRuntimeConfig } from '@/types'
+import {
+  Locale,
+  Page,
+  PageParams,
+  PageProps,
+  PublicRuntimeConfig,
+} from '@/types'
+import { getI18nStaticProps } from '@/lib/i18n'
+import { Trans } from 'react-i18next'
 
-type HomePageParams = ParsedUrlQuery
+type HomePageParams = PageParams
 
-type HomePageProps = {
-  initialData: {
-    githubUser: GetUserQuery
-  }
-}
+type HomePageProps = PageProps<{
+  githubUser: GetUserQuery
+}>
 
 const { publicRuntimeConfig } = getConfig() as {
   publicRuntimeConfig: PublicRuntimeConfig
 }
 
-const getStaticProps: GetStaticProps<
-  HomePageProps,
-  HomePageParams
-> = async () => {
+const getStaticProps: GetStaticProps<HomePageProps, HomePageParams> = async (
+  context
+) => {
+  const { props: baseProps } = await getI18nStaticProps({
+    locale: context.params?.locale as Locale,
+    namespaces: ['common', 'home'],
+  })
   const githubUserId = process.env.NEXT_PUBLIC_GITHUB_USER as string
   const githubUser = await githubClient.GetUser({ id: githubUserId })
 
-  const props: HomePageProps = {
-    initialData: {
+  return {
+    props: {
+      ...baseProps,
       githubUser,
     },
-  }
-  return {
-    props,
   }
 }
 
 const HomePage: Page<HomePageProps> = (props) => {
   const githubUserId = process.env.NEXT_PUBLIC_GITHUB_USER as string
   const githubGetUser = githubClient.useGetUser(
-    QUERIES.GitHubGetUser(githubUserId),
-    {
-      id: githubUserId,
-    },
-    {
-      initialData: props.initialData.githubUser,
-    }
+    { id: githubUserId },
+    { initialData: props.githubUser }
   )
 
   const seo = useSEO({
@@ -62,14 +60,15 @@ const HomePage: Page<HomePageProps> = (props) => {
 
       <main>
         <h1 className="title">
-          <Trans
-            i18nKey="home:title"
-            components={[<a href="https://nextjs.org" />]}
-          />
+          <Trans i18nKey="home:WelcomeToNextJs">
+            Welcome to <a href="https://nextjs.org">Next.js!</a>
+          </Trans>
         </h1>
 
         <p className="description">
-          Get started by editing <code>pages/index.tsx</code>
+          <Trans i18nKey="common:GetStartedByEditing">
+            Get started by editing <code>pages/index.tsx</code>
+          </Trans>
         </p>
 
         <button
@@ -277,3 +276,4 @@ const HomePage: Page<HomePageProps> = (props) => {
 
 export default HomePage
 export { getStaticProps }
+export type { HomePageParams, HomePageProps }

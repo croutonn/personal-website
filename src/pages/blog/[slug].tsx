@@ -6,19 +6,30 @@ import { useSEO } from '@/hooks'
 import { Authors } from '@/lib/constants'
 import markdownToReactNode from '@/lib/markdown'
 import { getBlogPost, getBlogPostRoutes } from '@/services/blog'
-import { BlogPost, isFalsy, Page } from '@/types'
+import {
+  BlogPost,
+  isFalsy,
+  Locale,
+  Page,
+  PageParams,
+  PageProps,
+  PublicRuntimeConfig,
+  ServerRuntimeConfig,
+} from '@/types'
+import { getI18nStaticProps } from '@/lib/i18n'
+import getConfig from 'next/config'
 
-type BlogPostPageParams = {
+type BlogPostPageParams = PageParams<{
   slug: string
-}
+}>
 
-type BlogPostPageProps = {
+type BlogPostPageProps = PageProps<{
   slug: string
-  locale: string
-  defaultLocale: string
   post: BlogPost
   notFoundLocales: string[]
-}
+  locale: Locale
+  defaultLocale: Locale
+}>
 
 const BlogPostPage: Page<BlogPostPageProps> = (props) => {
   const postContent = useMemo(() => markdownToReactNode(props.post.content), [
@@ -78,10 +89,21 @@ const getStaticProps: GetStaticProps<
   if (!context.params?.slug) {
     throw new Error('Missing `slug` parameter.')
   }
-  const defaultLocale = context.defaultLocale as string
+
+  const pageLocale = context.params.locale as Locale
+
+  const { props: baseProps } = await getI18nStaticProps({
+    locale: pageLocale,
+    namespaces: ['common', 'blog'],
+  })
+
+  const { publicRuntimeConfig, serverRuntimeConfig } = getConfig<
+    PublicRuntimeConfig,
+    ServerRuntimeConfig
+  >()
+
   const pageSlug = context.params.slug
-  const pageLocale = context.locale || defaultLocale
-  const locales = context.locales || [pageLocale]
+  const { locales, defaultLocale } = publicRuntimeConfig.i18n
   const localePosts = await Promise.all(
     locales.map((locale) => getBlogPost(pageSlug, locale))
   )
@@ -91,19 +113,20 @@ const getStaticProps: GetStaticProps<
       (localePost) => localePost?.locale === defaultLocale
     ) as BlogPost)
 
-  const props: BlogPostPageProps = {
-    slug: context.params.slug,
-    locale: pageLocale,
-    defaultLocale,
-    post,
-    notFoundLocales: localePosts
-      .filter(isFalsy)
-      .map((_, index) => locales[index]),
-  }
   return {
-    props,
+    props: {
+      ...baseProps,
+      slug: context.params.slug,
+      locale: pageLocale,
+      defaultLocale,
+      post,
+      notFoundLocales: localePosts
+        .filter(isFalsy)
+        .map((_, index) => locales[index]),
+    },
   }
 }
 
 export default BlogPostPage
 export { getStaticPaths, getStaticProps }
+export type { BlogPostPageParams, BlogPostPageProps }

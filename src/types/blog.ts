@@ -1,4 +1,5 @@
 import { Authors } from '@/lib/constants'
+import { Locale } from '@/types/i18n'
 
 type Order = 'ASC' | 'DESC'
 type OrderBy = 'date'
@@ -28,7 +29,7 @@ type BlogPostFrontMatter = {
 
 type BlogPostPreview = BlogPostFrontMatter & {
   slug: string
-  locale: string
+  locale: Locale
 }
 
 type BlogPost = BlogPostPreview & {

@@ -13,5 +13,12 @@
     "prIgnoreNotification",
     "deprecationWarningIssues",
     "onboardingClose"
+  ],
+  "packageRules": [
+    {
+      "depTypeList": ["peerDependencies"],
+      "excludePackageNames": ["stylelint"],
+      "enabled": false
+    }
   ]
 }

@@ -2,7 +2,13 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 const withCSS = require('@zeit/next-css')({
-  webpack(config) {
+  webpack(config, { isServer }) {
+    if (!isServer) {
+      // eslint-disable-next-line no-param-reassign
+      config.node = {
+        fs: 'empty',
+      }
+    }
     // retrieve the rule without knowing its order
     const jsLoaderRule = config.module.rules.find(
       (rule) => rule.test instanceof RegExp && rule.test.test('.js')
@@ -23,7 +29,7 @@ const withCSS = require('@zeit/next-css')({
 })
 const withPlugins = require('next-compose-plugins')
 
-const { locales, defaultLocale } = require('./i18n')
+const i18n = require('./i18n.config')
 
 const plugins = [withCSS]
 
@@ -41,11 +47,6 @@ const plugins = [withCSS]
  * @type {NextConfiguration}
  */
 const config = {
-  i18n: {
-    locales,
-    defaultLocale,
-  },
-
   publicRuntimeConfig: {
     site: {
       name: process.env.SITE_TITLE,
@@ -83,10 +84,29 @@ const config = {
         },
       ],
     },
-    localeMap: {
-      ja: 'ja_JP',
-      en: 'en_US',
+    i18n: {
+      locales: i18n.locales,
+      defaultLocale: i18n.defaultLocale,
+      localeMap: {
+        ja: 'ja_JP',
+        en: 'en_US',
+      },
     },
+  },
+  serverRuntimeConfig: {
+    i18n: {
+      defaultNamespaces: i18n.defaultNamespaces,
+      resourceDir: i18n.resourceDir,
+    },
+  },
+  redirects: async () => {
+    return [
+      {
+        source: '/ja',
+        destination: '/',
+        permanent: true,
+      },
+    ]
   },
 }
 
