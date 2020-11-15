@@ -1,0 +1,39 @@
+schema:
+  - ./schemas/*.graphql
+documents: src/services/**/*.{graphql}
+extensions:
+  codegen:
+    hooks:
+      afterOneFileWrite:
+        - eslint --fix
+        - prettier --write
+    overwrite: true
+    generates:
+      src/services/github/graphql.ts:
+        schema: 'schemas/github.graphql'
+        documents: 'src/services/github/**/*.graphql'
+        plugins:
+          - 'typescript'
+          - 'typescript-operations'
+          - 'typescript-graphql-request'
+    config:
+      avoidOptionals: true
+      namingConvention:
+        typeNames: pascal-case#pascalCase
+        transformUnderscore: true
+      scalars:
+        DateTime: string
+        JSON: unknown
+        Upload: unknown
+        Time: string
+        Date: string
+        Long: number
+        GitObjectID: string
+        GitSSHRemote: string
+        GitTimestamp: string
+        HTML: string
+        PreciseDateTime: string
+        URI: string
+        X509Certificate: string
+      documentMode: documentNode
+      autogenSWRKey: true
