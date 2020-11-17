@@ -1,15 +1,13 @@
 {
-  "Public Runtime Config": {
+  "Next.js Runtime Config": {
     "scope": "typescript,typescriptreact",
-    "prefix": "pub",
+    "prefix": "nrconf",
     "body": [
       "import getConfig from 'next/config'",
-      "import { PublicRuntimeConfig } from '@/types'",
+      "import { PublicRuntimeConfig, ServerRuntimeConfig } from '@/types'",
       "",
-      "const { publicRuntimeConfig } = getConfig() as {",
-      "\tpublicRuntimeConfig: PublicRuntimeConfig",
-      "}"
+      "const { publicRuntimeConfig } = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()"
     ],
-    "description": "Public Runtime Config"
+    "description": "Next.js Runtime Config"
   }
 }

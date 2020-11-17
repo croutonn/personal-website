@@ -21,13 +21,20 @@ type BlogPostFrontMatter = {
   title: string
   description: string
   author: keyof typeof Authors
-  publishedAt: string
-  updatedAt?: string
+  publishedAt: number
+  updatedAt?: number
   image?: string | string[]
+  ogImage?: {
+    title?: string
+    subtitle?: string
+    fileName: string
+    imageUrl?: string
+  }
   thumbnail?: string
 }
 
 type BlogPostPreview = BlogPostFrontMatter & {
+  id: string
   slug: string
   locale: Locale
 }

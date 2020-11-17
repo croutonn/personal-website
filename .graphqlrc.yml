@@ -38,3 +38,6 @@ extensions:
         X509Certificate: string
       documentMode: documentNode
       autogenSWRKey: true
+      excludeQueries:
+        - GetDirectoriesWithFiles
+        - GetFile

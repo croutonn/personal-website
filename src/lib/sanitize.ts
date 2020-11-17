@@ -38,25 +38,4 @@ const sanitizeInt = (
     : singleValue || defaultValue
 }
 
-const sanitizeLocale = (value: Maybe<MaybeArray<string>>): string => {
-  const singleValue = toSingleValue(value)
-  switch (singleValue) {
-    case 'ja-JP':
-    case 'en-US':
-      return singleValue
-    case 'ja':
-      return 'ja-JP'
-    case 'en':
-      return 'en-US'
-    default:
-      return process.env.NEXT_PUBLIC_DEFAULT_LOCALE as string
-  }
-}
-
-export {
-  sanitizeOrder,
-  sanitizeOrderBy,
-  sanitizeInt,
-  sanitizeLocale,
-  toSingleValue,
-}
+export { sanitizeOrder, sanitizeOrderBy, sanitizeInt, toSingleValue }

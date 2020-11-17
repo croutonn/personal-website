@@ -14,6 +14,13 @@ module.exports = {
         project: './tsconfig.json',
       },
       rules: {
+        'no-underscore-dangle': [
+          'error',
+          {
+            allow: ['__typename'],
+            allowFunctionParams: true,
+          },
+        ],
         'react/jsx-props-no-spreading': [
           'error',
           {

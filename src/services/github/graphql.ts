@@ -19620,6 +19620,63 @@ export type UserFragment = { __typename?: 'User' } & Pick<
     }
   }
 
+export type GetDirectoriesWithFilesQueryVariables = Exact<{
+  owner: Scalars['String']
+  name: Scalars['String']
+  expression: Scalars['String']
+}>
+
+export type GetDirectoriesWithFilesQuery = { __typename?: 'Query' } & {
+  repository: Maybe<
+    { __typename?: 'Repository' } & {
+      object: Maybe<
+        | { __typename: 'Blob' }
+        | { __typename: 'Commit' }
+        | { __typename: 'Tag' }
+        | ({ __typename: 'Tree' } & {
+            entries: Maybe<
+              Array<
+                { __typename?: 'TreeEntry' } & Pick<TreeEntry, 'name'> & {
+                    object: Maybe<
+                      | { __typename: 'Blob' }
+                      | { __typename: 'Commit' }
+                      | { __typename: 'Tag' }
+                      | ({ __typename: 'Tree' } & {
+                          entries: Maybe<
+                            Array<
+                              { __typename?: 'TreeEntry' } & Pick<
+                                TreeEntry,
+                                'name'
+                              > & {
+                                  object: Maybe<
+                                    | ({ __typename: 'Blob' } & Pick<
+                                        Blob,
+                                        'text' | 'id'
+                                      >)
+                                    | ({ __typename: 'Commit' } & Pick<
+                                        Commit,
+                                        'id'
+                                      >)
+                                    | ({ __typename: 'Tag' } & Pick<Tag, 'id'>)
+                                    | ({ __typename: 'Tree' } & Pick<
+                                        Tree,
+                                        'id'
+                                      >)
+                                  >
+                                }
+                            >
+                          >
+                        })
+                    >
+                  }
+              >
+            >
+          })
+      >
+    }
+  >
+}
+
 export type GetFileQueryVariables = Exact<{
   owner: Scalars['String']
   name: Scalars['String']
@@ -19630,45 +19687,10 @@ export type GetFileQuery = { __typename?: 'Query' } & {
   repository: Maybe<
     { __typename?: 'Repository' } & {
       object: Maybe<
-        | ({ __typename: 'Blob' } & Pick<Blob, 'id' | 'text'>)
-        | { __typename?: 'Commit' }
-        | { __typename?: 'Tag' }
-        | { __typename?: 'Tree' }
-      >
-    }
-  >
-}
-
-export type GetFilesQueryVariables = Exact<{
-  owner: Scalars['String']
-  name: Scalars['String']
-  expression: Scalars['String']
-}>
-
-export type GetFilesQuery = { __typename?: 'Query' } & {
-  repository: Maybe<
-    { __typename?: 'Repository' } & {
-      object: Maybe<
-        | { __typename?: 'Blob' }
-        | { __typename?: 'Commit' }
-        | { __typename?: 'Tag' }
-        | ({ __typename: 'Tree' } & {
-            entries: Maybe<
-              Array<
-                { __typename?: 'TreeEntry' } & Pick<
-                  TreeEntry,
-                  'name' | 'type'
-                > & {
-                    object: Maybe<
-                      | ({ __typename?: 'Blob' } & Pick<Blob, 'id' | 'text'>)
-                      | { __typename?: 'Commit' }
-                      | { __typename?: 'Tag' }
-                      | { __typename?: 'Tree' }
-                    >
-                  }
-              >
-            >
-          })
+        | ({ __typename: 'Blob' } & Pick<Blob, 'text' | 'id'>)
+        | ({ __typename: 'Commit' } & Pick<Commit, 'id'>)
+        | ({ __typename: 'Tag' } & Pick<Tag, 'id'>)
+        | ({ __typename: 'Tree' } & Pick<Tree, 'id'>)
       >
     }
   >
@@ -20845,6 +20867,271 @@ export const UserFragmentDoc: DocumentNode = {
     },
   ],
 }
+export const GetDirectoriesWithFilesDocument: DocumentNode = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetDirectoriesWithFiles' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'owner' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+          directives: [],
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+          directives: [],
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'expression' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+          directives: [],
+        },
+      ],
+      directives: [],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'repository' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'owner' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'owner' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'name' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'name' },
+                },
+              },
+            ],
+            directives: [],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'object' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'expression' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'expression' },
+                      },
+                    },
+                  ],
+                  directives: [],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' },
+                        arguments: [],
+                        directives: [],
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: { kind: 'Name', value: 'Tree' },
+                        },
+                        directives: [],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'entries' },
+                              arguments: [],
+                              directives: [],
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                    arguments: [],
+                                    directives: [],
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'object' },
+                                    arguments: [],
+                                    directives: [],
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: '__typename',
+                                          },
+                                          arguments: [],
+                                          directives: [],
+                                        },
+                                        {
+                                          kind: 'InlineFragment',
+                                          typeCondition: {
+                                            kind: 'NamedType',
+                                            name: {
+                                              kind: 'Name',
+                                              value: 'Tree',
+                                            },
+                                          },
+                                          directives: [],
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'entries',
+                                                },
+                                                arguments: [],
+                                                directives: [],
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'name',
+                                                      },
+                                                      arguments: [],
+                                                      directives: [],
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'object',
+                                                      },
+                                                      arguments: [],
+                                                      directives: [],
+                                                      selectionSet: {
+                                                        kind: 'SelectionSet',
+                                                        selections: [
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value:
+                                                                '__typename',
+                                                            },
+                                                            arguments: [],
+                                                            directives: [],
+                                                          },
+                                                          {
+                                                            kind: 'Field',
+                                                            name: {
+                                                              kind: 'Name',
+                                                              value: 'id',
+                                                            },
+                                                            arguments: [],
+                                                            directives: [],
+                                                          },
+                                                          {
+                                                            kind:
+                                                              'InlineFragment',
+                                                            typeCondition: {
+                                                              kind: 'NamedType',
+                                                              name: {
+                                                                kind: 'Name',
+                                                                value: 'Blob',
+                                                              },
+                                                            },
+                                                            directives: [],
+                                                            selectionSet: {
+                                                              kind:
+                                                                'SelectionSet',
+                                                              selections: [
+                                                                {
+                                                                  kind: 'Field',
+                                                                  name: {
+                                                                    kind:
+                                                                      'Name',
+                                                                    value:
+                                                                      'text',
+                                                                  },
+                                                                  arguments: [],
+                                                                  directives: [],
+                                                                },
+                                                              ],
+                                                            },
+                                                          },
+                                                        ],
+                                                      },
+                                                    },
+                                                  ],
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+}
 export const GetFileDocument: DocumentNode = {
   kind: 'Document',
   definitions: [
@@ -20943,6 +21230,18 @@ export const GetFileDocument: DocumentNode = {
                     kind: 'SelectionSet',
                     selections: [
                       {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' },
+                        arguments: [],
+                        directives: [],
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'id' },
+                        arguments: [],
+                        directives: [],
+                      },
+                      {
                         kind: 'InlineFragment',
                         typeCondition: {
                           kind: 'NamedType',
@@ -20954,216 +21253,9 @@ export const GetFileDocument: DocumentNode = {
                           selections: [
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: '__typename' },
-                              arguments: [],
-                              directives: [],
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                              arguments: [],
-                              directives: [],
-                            },
-                            {
-                              kind: 'Field',
                               name: { kind: 'Name', value: 'text' },
                               arguments: [],
                               directives: [],
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-}
-export const GetFilesDocument: DocumentNode = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetFiles' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'owner' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          directives: [],
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          directives: [],
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'expression' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-          directives: [],
-        },
-      ],
-      directives: [],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'repository' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'owner' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'owner' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'name' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'name' },
-                },
-              },
-            ],
-            directives: [],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'object' },
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'expression' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'expression' },
-                      },
-                    },
-                  ],
-                  directives: [],
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'InlineFragment',
-                        typeCondition: {
-                          kind: 'NamedType',
-                          name: { kind: 'Name', value: 'Tree' },
-                        },
-                        directives: [],
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: '__typename' },
-                              arguments: [],
-                              directives: [],
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'entries' },
-                              arguments: [],
-                              directives: [],
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' },
-                                    arguments: [],
-                                    directives: [],
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'type' },
-                                    arguments: [],
-                                    directives: [],
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'object' },
-                                    arguments: [],
-                                    directives: [],
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'InlineFragment',
-                                          typeCondition: {
-                                            kind: 'NamedType',
-                                            name: {
-                                              kind: 'Name',
-                                              value: 'Blob',
-                                            },
-                                          },
-                                          directives: [],
-                                          selectionSet: {
-                                            kind: 'SelectionSet',
-                                            selections: [
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'id',
-                                                },
-                                                arguments: [],
-                                                directives: [],
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'text',
-                                                },
-                                                arguments: [],
-                                                directives: [],
-                                              },
-                                            ],
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
                             },
                           ],
                         },
@@ -21731,14 +21823,19 @@ export const getSdk = (
   withWrapper: SdkFunctionWrapper = defaultWrapper
 ) => {
   return {
+    GetDirectoriesWithFiles(
+      variables: GetDirectoriesWithFilesQueryVariables
+    ): Promise<GetDirectoriesWithFilesQuery> {
+      return withWrapper(() =>
+        client.request<GetDirectoriesWithFilesQuery>(
+          print(GetDirectoriesWithFilesDocument),
+          variables
+        )
+      )
+    },
     GetFile(variables: GetFileQueryVariables): Promise<GetFileQuery> {
       return withWrapper(() =>
         client.request<GetFileQuery>(print(GetFileDocument), variables)
-      )
-    },
-    GetFiles(variables: GetFilesQueryVariables): Promise<GetFilesQuery> {
-      return withWrapper(() =>
-        client.request<GetFilesQuery>(print(GetFilesDocument), variables)
       )
     },
     GetUser(variables: GetUserQueryVariables): Promise<GetUserQuery> {
@@ -21766,26 +21863,6 @@ export const getSdkWithHooks = (
   ]
   return {
     ...sdk,
-    useGetFile(
-      variables: GetFileQueryVariables,
-      config?: SWRConfigInterface<GetFileQuery>
-    ) {
-      return useSWR<GetFileQuery>(
-        genKey<GetFileQueryVariables>('GetFile', variables),
-        () => sdk.GetFile(variables),
-        config
-      )
-    },
-    useGetFiles(
-      variables: GetFilesQueryVariables,
-      config?: SWRConfigInterface<GetFilesQuery>
-    ) {
-      return useSWR<GetFilesQuery>(
-        genKey<GetFilesQueryVariables>('GetFiles', variables),
-        () => sdk.GetFiles(variables),
-        config
-      )
-    },
     useGetUser(
       variables: GetUserQueryVariables,
       config?: SWRConfigInterface<GetUserQuery>

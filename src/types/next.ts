@@ -34,6 +34,14 @@ type PublicRuntimeConfig = {
 
 type ServerRuntimeConfig = {
   i18n: I18nServerConfig
+  blog: {
+    repository: {
+      owner: string
+      name: string
+      branch: string
+      directory: string
+    }
+  }
 }
 
 type Page<P = unknown, LP = P, IP = P> = NextPage<P, IP> & {

@@ -1,4 +1,5 @@
 import rehypePrism from '@mapbox/rehype-prism'
+import frontMatter from 'front-matter'
 import LRU from 'lru-cache'
 import { createElement, Fragment, ReactNode } from 'react'
 import rehypeReact from 'rehype-react'
@@ -9,6 +10,7 @@ import remarkRehype from 'remark-rehype'
 import unified from 'unified'
 
 import { IS_SERVER } from '@/lib/constants'
+import { Maybe } from '@/types'
 
 const processor = unified()
   .use(markdown)
@@ -44,4 +46,17 @@ const markdownToReactNode = (markdownText: string): ReactNode => {
   return value
 }
 
-export default markdownToReactNode
+const readMarkdown = <T = unknown>(
+  text: Maybe<string>
+): Maybe<{ attributes: T; body: string }> => {
+  if (!text) {
+    return null
+  }
+  const { attributes, body } = frontMatter<T>(text)
+  return {
+    attributes,
+    body,
+  }
+}
+
+export { markdownToReactNode, readMarkdown }

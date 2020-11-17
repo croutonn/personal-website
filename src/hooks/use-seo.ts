@@ -5,16 +5,14 @@ import { useMemo } from 'react'
 
 import generateCanonicalURL from '@/lib/generate-canonical-url'
 import generateLanguageAlternates from '@/lib/generate-language-alternates'
-import { PublicRuntimeConfig } from '@/types'
+import { Locale, PublicRuntimeConfig } from '@/types'
 
-const { publicRuntimeConfig } = getConfig() as {
-  publicRuntimeConfig: PublicRuntimeConfig
-}
+const { publicRuntimeConfig } = getConfig<PublicRuntimeConfig>()
 
 const createOpenGraphConfiguration = (router: NextRouter): OpenGraph => {
   const mergedOpenGraph = {
     ...publicRuntimeConfig.seo.openGraph,
-    locale: publicRuntimeConfig.i18n.localeMap[router.locale as string],
+    locale: publicRuntimeConfig.i18n.localeMap[router.locale as Locale],
   }
   return mergedOpenGraph
 }

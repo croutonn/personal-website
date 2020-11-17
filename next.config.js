@@ -98,6 +98,14 @@ const config = {
       defaultNamespaces: i18n.defaultNamespaces,
       resourceDir: i18n.resourceDir,
     },
+    blog: {
+      repository: {
+        owner: process.env.CONTENT_REPOSITORY_OWNER,
+        name: process.env.CONTENT_REPOSITORY_NAME,
+        branch: process.env.CONTENT_REPOSITORY_BLOG_BRANCH,
+        directory: process.env.CONTENT_REPOSITORY_BLOG_DIRECTORY,
+      },
+    },
   },
   redirects: async () => {
     return [
