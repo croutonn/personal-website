@@ -129,13 +129,13 @@ const convertToPost = (
     return null
   }
   const content = queryResult.repository.object.text || ''
-  const frontMatter = readPostFrontMatter(content)
-  if (!frontMatter) return null
+  const postData = readMarkdown<BlogPostFrontMatter>(content)
+  if (!postData) return null
 
   return {
     id: queryResult.repository.object.id,
-    content,
-    ...frontMatter,
+    content: postData.body,
+    ...postData.attributes,
     ...postInfo,
   }
 }
