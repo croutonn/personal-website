@@ -17,12 +17,6 @@ import {
   ServerRuntimeConfig,
 } from '@/types'
 
-const {
-  publicRuntimeConfig: {
-    i18n: { defaultLocale },
-  },
-} = getConfig<PublicRuntimeConfig>()
-
 const compareByDescDate = <
   A extends { publishedAt: number; updatedAt?: number }
 >(
@@ -83,6 +77,13 @@ const convertToPosts = (
   ) {
     return []
   }
+
+  const {
+    publicRuntimeConfig: {
+      i18n: { defaultLocale },
+    },
+  } = getConfig<PublicRuntimeConfig>()
+
   return queryResult.repository.object.entries
     .map((directory) => {
       if (

@@ -4,7 +4,6 @@ import { useMemo } from 'react'
 
 import { useSEO } from '@/hooks'
 import { Authors } from '@/lib/constants'
-import { markdownToReactNode } from '@/lib/markdown'
 import {
   BlogPost,
   Locale,
@@ -17,6 +16,10 @@ import {
 import { getI18nStaticProps } from '@/lib/i18n'
 import getConfig from 'next/config'
 import { getBlogPosts } from '@/lib/blog'
+import { useRouter } from 'next/router'
+import Head from 'next/head'
+import generateCanonicalURL from '@/lib/generate-canonical-url'
+import Post from '@/components/organisms/Post'
 
 type BlogPostPageParams = PageParams<{
   slug: string
@@ -29,16 +32,14 @@ type BlogPostPageProps = PageProps<{
   locale: Locale
 }>
 
-const {
-  publicRuntimeConfig: {
-    i18n: { locales, defaultLocale },
-  },
-} = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
-
 const BlogPostPage: Page<BlogPostPageProps> = (props) => {
-  const postContent = useMemo(() => markdownToReactNode(props.post.content), [
-    props.post.content,
-  ])
+  const {
+    publicRuntimeConfig: {
+      site: { url: siteUrl },
+      i18n: { defaultLocale },
+    },
+  } = getConfig<PublicRuntimeConfig>()
+  const router = useRouter()
 
   const seo = useSEO(
     {
@@ -54,20 +55,35 @@ const BlogPostPage: Page<BlogPostPageProps> = (props) => {
     props.notFoundLocales
   )
 
+  const isFallbackContent = useMemo(
+    () => props.locale !== props.post.locale && props.locale !== defaultLocale,
+    [props.locale, props.post.locale, defaultLocale]
+  )
+  const canonicalUrl = useMemo(
+    () => generateCanonicalURL(router, props.notFoundLocales),
+    [router, props.notFoundLocales]
+  )
+
   return (
     <>
+      {isFallbackContent && (
+        <Head>
+          <link rel="canonical" href={canonicalUrl} />
+        </Head>
+      )}
       <NextSeo {...seo} />
-      <article>
-        <header>
-          <h1>{props.post.title}</h1>
-        </header>
-        <div>{postContent}</div>
-      </article>
+      <Post post={props.post} />
     </>
   )
 }
 
 const getStaticPaths: GetStaticPaths<BlogPostPageParams> = async () => {
+  const {
+    publicRuntimeConfig: {
+      i18n: { defaultLocale },
+    },
+  } = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
+
   const posts = await getBlogPosts()
   const slugs = new Set<string>()
 
@@ -88,6 +104,12 @@ const getStaticPaths: GetStaticPaths<BlogPostPageParams> = async () => {
 const createGetStaticProps = (
   targetLocale: Locale
 ): GetStaticProps<BlogPostPageProps, BlogPostPageParams> => {
+  const {
+    publicRuntimeConfig: {
+      i18n: { locales, defaultLocale },
+    },
+  } = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
+
   const getStaticProps: GetStaticProps<
     BlogPostPageProps,
     BlogPostPageParams
@@ -144,7 +166,16 @@ const createGetStaticProps = (
   return getStaticProps
 }
 
-const getStaticProps = createGetStaticProps(defaultLocale)
+const getStaticProps: GetStaticProps<BlogPostPageProps, BlogPostPageParams> = (
+  context
+) => {
+  const {
+    publicRuntimeConfig: {
+      i18n: { defaultLocale },
+    },
+  } = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
+  return createGetStaticProps(defaultLocale)(context)
+}
 
 export default BlogPostPage
 export { createGetStaticProps, getStaticPaths, getStaticProps }

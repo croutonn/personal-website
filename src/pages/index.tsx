@@ -13,16 +13,13 @@ import {
 } from '@/types'
 import { getI18nStaticProps } from '@/lib/i18n'
 import { Trans } from 'react-i18next'
+import Head from 'next/head'
 
 type HomePageParams = PageParams
 
 type HomePageProps = PageProps<{
   githubUser: GetUserQuery
 }>
-
-const { publicRuntimeConfig } = getConfig() as {
-  publicRuntimeConfig: PublicRuntimeConfig
-}
 
 const getStaticProps: GetStaticProps<HomePageProps, HomePageParams> = async (
   context
@@ -43,6 +40,8 @@ const getStaticProps: GetStaticProps<HomePageProps, HomePageParams> = async (
 }
 
 const HomePage: Page<HomePageProps> = (props) => {
+  const { publicRuntimeConfig } = getConfig<PublicRuntimeConfig>()
+
   const githubUserId = process.env.NEXT_PUBLIC_GITHUB_USER as string
   const githubGetUser = githubClient.useGetUser(
     { id: githubUserId },
@@ -56,7 +55,9 @@ const HomePage: Page<HomePageProps> = (props) => {
 
   return (
     <div className="container">
-      <NextSeo {...seo} />
+      <Head>
+        <NextSeo {...seo} />
+      </Head>
 
       <main>
         <h1 className="title">

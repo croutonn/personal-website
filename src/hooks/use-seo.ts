@@ -7,9 +7,8 @@ import generateCanonicalURL from '@/lib/generate-canonical-url'
 import generateLanguageAlternates from '@/lib/generate-language-alternates'
 import { Locale, PublicRuntimeConfig } from '@/types'
 
-const { publicRuntimeConfig } = getConfig<PublicRuntimeConfig>()
-
 const createOpenGraphConfiguration = (router: NextRouter): OpenGraph => {
+  const { publicRuntimeConfig } = getConfig<PublicRuntimeConfig>()
   const mergedOpenGraph = {
     ...publicRuntimeConfig.seo.openGraph,
     locale: publicRuntimeConfig.i18n.localeMap[router.locale as Locale],
@@ -44,7 +43,6 @@ const useSEO = (
         description: description || openGraph.description,
       },
       languageAlternates,
-      canonical,
       ...seoOptions,
       title,
       description,

@@ -34,13 +34,14 @@ const i18n = require('./i18n.config')
 const plugins = [withCSS]
 
 /**
- * @typedef {import('next-seo').DefaultSeoProps} DefaultSeoProps
+ * @typedef {import('./src/types/next').PublicRuntimeConfig} PublicRuntimeConfig
+ * @typedef {import('./src/types/next').ServerRuntimeConfig} ServerRuntimeConfig
  */
 
 /**
  * @typedef  {Object} NextConfiguration
- * @property {Object}           serverRuntimeConfig      Runtime configuration in server side
- * @property {DefaultSeoProps}  serverRuntimeConfig.seo  `next-seo` default configuration
+ * @property {PublicRuntimeConfig} publicRuntimeConfig
+ * @property {ServerRuntimeConfig} serverRuntimeConfig
  */
 
 /**

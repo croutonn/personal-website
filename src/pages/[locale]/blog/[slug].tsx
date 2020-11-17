@@ -6,13 +6,13 @@ import getConfig from 'next/config'
 import { PublicRuntimeConfig, ServerRuntimeConfig } from '@/types'
 import { getBlogPosts } from '@/lib/blog'
 
-const {
-  publicRuntimeConfig: {
-    i18n: { locales, defaultLocale },
-  },
-} = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
-
 const getStaticPaths: GetStaticPaths<BlogPostPage.Params> = async () => {
+  const {
+    publicRuntimeConfig: {
+      i18n: { locales },
+    },
+  } = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
+
   const posts = await getBlogPosts()
   const slugs = new Set<string>()
 
@@ -35,10 +35,17 @@ const getStaticPaths: GetStaticPaths<BlogPostPage.Params> = async () => {
 const getStaticProps: GetStaticProps<
   BlogPostPage.Props,
   BlogPostPage.Params
-> = (context) =>
-  BlogPostPage.createGetStaticProps(context.params?.locale || defaultLocale)(
-    context
-  )
+> = (context) => {
+  const {
+    publicRuntimeConfig: {
+      i18n: { defaultLocale },
+    },
+  } = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
+
+  return BlogPostPage.createGetStaticProps(
+    context.params?.locale || defaultLocale
+  )(context)
+}
 
 export default BlogPostPage.default
 

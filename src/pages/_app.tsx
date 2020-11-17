@@ -5,27 +5,27 @@ import { AppType } from 'next/dist/next-server/lib/utils'
 import { DefaultLayout } from '@/layouts'
 import { Page, PublicRuntimeConfig } from '@/types'
 import { I18nextProvider, useSSR } from 'react-i18next'
-import i18n, { routeToLocale } from '@/lib/i18n'
+import i18n, { LocaleProvider, routeToLocale } from '@/lib/i18n'
 import { useEffect, useMemo } from 'react'
 import { useRouter } from 'next/router'
-import { removeRootDirPath, removeTrailingSlash } from '@/lib/string-utils'
 import Head from 'next/head'
-
-const { publicRuntimeConfig } = getConfig() as {
-  publicRuntimeConfig: PublicRuntimeConfig
-}
+import generateCanonicalURL from '@/lib/generate-canonical-url'
 
 const App: AppType = (props) => {
+  const {
+    publicRuntimeConfig: {
+      site: { url: siteUrl },
+      i18n: i18nPublicConfig,
+      seo: seoDefaultConfig,
+    },
+  } = getConfig<PublicRuntimeConfig>()
+
   const Layout = (props.Component as Page).layout || DefaultLayout
   const router = useRouter()
   const locale = useMemo(() => routeToLocale(router.asPath), [router.asPath])
 
   // Render the translation on the server side
   useSSR(props.pageProps.i18n, locale)
-
-  const {
-    publicRuntimeConfig: { i18n: i18nPublicConfig },
-  } = getConfig<PublicRuntimeConfig>()
 
   // whether the route is `/${defaultLocale}/...`
   const isNotCanonicalPage = useMemo(
@@ -35,35 +35,32 @@ const App: AppType = (props) => {
 
   // URL with `/${defaultLocale}` removed
   const canonicalUrl = useMemo(
-    () =>
-      !isNotCanonicalPage
-        ? ''
-        : `${removeTrailingSlash(router.basePath)}${removeRootDirPath(
-            router.asPath
-          )}` || '/',
-    [isNotCanonicalPage, router.asPath, router.basePath]
+    () => (isNotCanonicalPage ? generateCanonicalURL(router) : null),
+    [router, isNotCanonicalPage]
   )
 
   // Redirect when a non canonical page is accessed
   useEffect(() => {
-    if (isNotCanonicalPage) {
+    if (canonicalUrl) {
       router.replace(canonicalUrl)
     }
-  }, [isNotCanonicalPage, canonicalUrl, router])
+  }, [canonicalUrl, router])
 
   /* eslint-disable react/jsx-props-no-spreading */
   return (
-    <I18nextProvider i18n={i18n}>
-      <Layout>
-        {isNotCanonicalPage && (
-          <Head>
-            <link rel="canonical" href={canonicalUrl} />
-          </Head>
-        )}
-        <DefaultSeo {...publicRuntimeConfig.seo} />
-        <props.Component {...props.pageProps} />
-      </Layout>
-    </I18nextProvider>
+    <LocaleProvider value={locale}>
+      <I18nextProvider i18n={i18n}>
+        <Layout>
+          {canonicalUrl && (
+            <Head>
+              <link rel="canonical" href={canonicalUrl} />
+            </Head>
+          )}
+          <DefaultSeo {...seoDefaultConfig} />
+          <props.Component {...props.pageProps} />
+        </Layout>
+      </I18nextProvider>
+    </LocaleProvider>
   )
   /* eslint-enable react/jsx-props-no-spreading */
 }
