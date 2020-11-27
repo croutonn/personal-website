@@ -1,22 +1,22 @@
 import { promises } from 'fs'
 import { resolve } from 'path'
-import { ParsedUrlQuery } from 'querystring'
+import type { ParsedUrlQuery } from 'querystring'
 
-import i18n, { Resource, ResourceKey } from 'i18next'
-import { GetStaticPathsResult } from 'next'
+import i18n from 'i18next'
+import type { Resource, ResourceKey } from 'i18next'
+import type { GetStaticPathsResult } from 'next'
 import getConfig from 'next/config'
-import { NextRouter } from 'next/router'
+import type { NextRouter } from 'next/router'
 import { createContext, useContext } from 'react'
 import { initReactI18next } from 'react-i18next'
 
 import { toSingleValue } from '@/lib/sanitize'
-import { PageProps, PublicRuntimeConfig, ServerRuntimeConfig } from '@/types'
-import { Locale } from '@/types/i18n'
+import type { IPageProps, ILocale } from '@/types'
 
 const {
   publicRuntimeConfig: { i18n: i18nPublicConfig },
   serverRuntimeConfig: { i18n: i18nServerConfig },
-} = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
+} = getConfig()
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -27,10 +27,10 @@ i18n
     },
   })
 
-const routeToLocale = (route: string | NextRouter): Locale => {
+const routeToLocale = (route: string | NextRouter): ILocale => {
   const queryLocale =
     typeof route !== 'string' && route.query?.locale
-      ? (toSingleValue(route.query?.locale) as Locale)
+      ? (toSingleValue(route.query?.locale) as ILocale)
       : null
   if (queryLocale) {
     return queryLocale
@@ -41,7 +41,7 @@ const routeToLocale = (route: string | NextRouter): Locale => {
     (locale) => locale === localePathToken
   )
   const locale = isLocale
-    ? (localePathToken as Locale)
+    ? (localePathToken as ILocale)
     : i18nPublicConfig.defaultLocale
   return locale
 }
@@ -51,7 +51,7 @@ const localePatterns = i18nPublicConfig.locales.reduce((prev, current) => {
     ...prev,
     [current]: new RegExp(`^\\/${current}(?![\\w_\\-.])`),
   }
-}, {} as Record<Locale, RegExp>)
+}, {} as Record<ILocale, RegExp>)
 const removeLocaleFromRoute = (route: string): string =>
   i18nPublicConfig.locales.reduce(
     (prev, current) => prev.replace(localePatterns[current], ''),
@@ -60,10 +60,10 @@ const removeLocaleFromRoute = (route: string): string =>
 
 const localeContext = createContext(i18nPublicConfig.defaultLocale)
 const LocaleProvider = localeContext.Provider
-const useLocale = (): Locale => useContext(localeContext)
+const useLocale = (): ILocale => useContext(localeContext)
 
 const loadResources = async (options: {
-  locale?: Locale
+  locale?: ILocale
   namespaces?: string[]
   noMinify?: boolean
 }): Promise<Resource> => {
@@ -167,14 +167,14 @@ const getI18nStaticProps = async ({
   locale,
   namespaces,
   noMinify,
-}: Parameters<typeof loadResources>[0]): Promise<{ props: PageProps }> => {
+}: Parameters<typeof loadResources>[0]): Promise<{ props: IPageProps }> => {
   const i18nResource = await loadResources({
     locale,
     namespaces,
     noMinify,
   })
 
-  const props: PageProps = {
+  const props: IPageProps = {
     i18n: i18nResource,
   }
 
@@ -185,7 +185,7 @@ const getI18nStaticProps = async ({
 
 const getI18nStaticPaths = <P extends ParsedUrlQuery>(
   staticPaths?: GetStaticPathsResult<P>
-): GetStaticPathsResult<P & { locale: Locale }> => {
+): GetStaticPathsResult<P & { locale: ILocale }> => {
   if (staticPaths) {
     return {
       paths: staticPaths.paths
@@ -193,7 +193,7 @@ const getI18nStaticPaths = <P extends ParsedUrlQuery>(
           i18nPublicConfig.locales.map((locale) => ({
             params: (typeof staticPath === 'string'
               ? { locale }
-              : { ...staticPath.params, locale }) as P & { locale: Locale },
+              : { ...staticPath.params, locale }) as P & { locale: ILocale },
           }))
         )
         .flat(),
@@ -203,7 +203,7 @@ const getI18nStaticPaths = <P extends ParsedUrlQuery>(
 
   return {
     paths: i18nPublicConfig.locales.map((locale) => ({
-      params: { locale } as P & { locale: Locale },
+      params: { locale } as P & { locale: ILocale },
     })),
     fallback: false,
   }

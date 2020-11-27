@@ -1,17 +1,18 @@
-import { NextSeoProps, OpenGraph } from 'next-seo/lib/types'
+import type { NextSeoProps, OpenGraph } from 'next-seo/lib/types'
 import getConfig from 'next/config'
-import { NextRouter, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
+import type { NextRouter } from 'next/router'
 import { useMemo } from 'react'
 
 import generateCanonicalURL from '@/lib/generate-canonical-url'
 import generateLanguageAlternates from '@/lib/generate-language-alternates'
-import { Locale, PublicRuntimeConfig } from '@/types'
+import type { ILocale } from '@/types'
 
 const createOpenGraphConfiguration = (router: NextRouter): OpenGraph => {
-  const { publicRuntimeConfig } = getConfig<PublicRuntimeConfig>()
+  const { publicRuntimeConfig } = getConfig()
   const mergedOpenGraph = {
     ...publicRuntimeConfig.seo.openGraph,
-    locale: publicRuntimeConfig.i18n.localeMap[router.locale as Locale],
+    locale: publicRuntimeConfig.i18n.localeMap[router.locale as ILocale],
   }
   return mergedOpenGraph
 }

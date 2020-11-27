@@ -1,10 +1,6 @@
 import getConfig from 'next/config'
 
-import { PublicRuntimeConfig } from '@/types'
-
-const { publicRuntimeConfig } = getConfig() as {
-  publicRuntimeConfig: PublicRuntimeConfig
-}
+const { publicRuntimeConfig } = getConfig()
 
 const titleTemplate = publicRuntimeConfig.titleTemplate.replace(
   '%siteName%',

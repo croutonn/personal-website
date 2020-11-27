@@ -1,6 +1,7 @@
 import { GraphQLClient } from 'graphql-request'
 
-import { getSdkWithHooks, SdkWithHooks } from '@/services/github/graphql'
+import { getSdkWithHooks } from '@/services/github/graphql'
+import type { SdkWithHooks } from '@/services/github/graphql'
 
 const API_URL = 'https://api.github.com/graphql'
 
@@ -16,4 +17,6 @@ const getGithubAPIClient = (): SdkWithHooks => {
   )
 }
 
-export default getGithubAPIClient()
+const gitHubClient = getGithubAPIClient()
+
+export default gitHubClient

@@ -1,6 +1,6 @@
-type BlankLayoutProps = unknown
+type IBlankLayoutProps = unknown
 
-const BlankLayout: React.FunctionComponent<BlankLayoutProps> = (props) => {
+const BlankLayout: React.FunctionComponent<IBlankLayoutProps> = (props) => {
   return <>{props.children}</>
 }
 

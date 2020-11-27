@@ -1,23 +1,23 @@
-import { Authors } from '@/lib/constants'
-import { Locale } from '@/types/i18n'
+import type { Authors } from '@/lib/constants'
+import type { ILocale } from '@/types'
 
-type Order = 'ASC' | 'DESC'
-type OrderBy = 'date'
+type IOrder = 'ASC' | 'DESC'
+type IOrderBy = 'date'
 
-type GetBlogPostOptions = {
+interface IGetBlogPostOptions {
   slug: string
   locale: string
 }
 
-type GetBlogPostPreviewsOptions = {
-  order?: Order
-  orderBy?: OrderBy
+interface IGetBlogPostPreviewsOptions {
+  order?: IOrder
+  orderBy?: IOrderBy
   page?: number
   perPage?: number
   locale?: string
 }
 
-type BlogPostFrontMatter = {
+interface IBlogPostFrontMatter {
   title: string
   description: string
   author: keyof typeof Authors
@@ -33,22 +33,22 @@ type BlogPostFrontMatter = {
   thumbnail?: string
 }
 
-type BlogPostPreview = BlogPostFrontMatter & {
+interface IBlogPostPreview extends IBlogPostFrontMatter {
   id: string
   slug: string
-  locale: Locale
+  locale: ILocale
 }
 
-type BlogPost = BlogPostPreview & {
+interface IBlogPost extends IBlogPostPreview {
   content: string
 }
 
 export type {
-  BlogPost,
-  BlogPostFrontMatter,
-  BlogPostPreview,
-  GetBlogPostOptions,
-  GetBlogPostPreviewsOptions,
-  Order,
-  OrderBy,
+  IBlogPost,
+  IBlogPostFrontMatter,
+  IBlogPostPreview,
+  IGetBlogPostOptions,
+  IGetBlogPostPreviewsOptions,
+  IOrder,
+  IOrderBy,
 }

@@ -1,37 +1,27 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
-const withCSS = require('@zeit/next-css')({
-  webpack(config, { isServer }) {
-    if (!isServer) {
-      // eslint-disable-next-line no-param-reassign
-      config.node = {
-        fs: 'empty',
-      }
-    }
-    // retrieve the rule without knowing its order
-    const jsLoaderRule = config.module.rules.find(
-      (rule) => rule.test instanceof RegExp && rule.test.test('.js')
-    )
-    const linariaLoader = {
-      loader: 'linaria/loader',
-      options: {
-        sourceMap: process.env.NODE_ENV !== 'production',
-      },
-    }
-    if (Array.isArray(jsLoaderRule.use)) {
-      jsLoaderRule.use.push(linariaLoader)
-    } else {
-      jsLoaderRule.use = [jsLoaderRule.use, linariaLoader]
-    }
-    return config
-  },
-})
 const withPlugins = require('next-compose-plugins')
+const withLinaria = require('next-linaria')
 
 const i18n = require('./i18n.config')
 
-const plugins = [withCSS]
+const plugins = [[withBundleAnalyzer], [withLinaria]]
+
+/**
+ * @param {import('webpack-chain')} config
+ * @param {Object} param1
+ */
+const webpack = (config, { isServer }) => {
+  if (!isServer) {
+    // eslint-disable-next-line no-param-reassign
+    config.node = {
+      fs: 'empty',
+    }
+  }
+
+  return config
+}
 
 /**
  * @typedef {import('./src/types/next').PublicRuntimeConfig} PublicRuntimeConfig
@@ -122,6 +112,7 @@ const config = {
       },
     ]
   },
+  webpack,
 }
 
-module.exports = withPlugins([[withBundleAnalyzer(config)], ...plugins])
+module.exports = withPlugins(plugins, config)

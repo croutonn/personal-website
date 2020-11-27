@@ -1,5 +1,7 @@
 declare module 'next/config' {
-  function getConfig<P = unknown, S = unknown>(): {
+  import type { IPublicRuntimeConfig, IServerRuntimeConfig } from '@/types/next'
+
+  function getConfig<P = IPublicRuntimeConfig, S = IServerRuntimeConfig>(): {
     publicRuntimeConfig: P
     serverRuntimeConfig: S
   }

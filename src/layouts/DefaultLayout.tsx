@@ -2,16 +2,15 @@ import getConfig from 'next/config'
 import Head from 'next/head'
 
 import { useLocale } from '@/lib/i18n'
-import { PublicRuntimeConfig } from '@/types'
 
-type DefaultLayoutProps = unknown
+type IDefaultLayoutProps = unknown
 
-const DefaultLayout: React.FunctionComponent<DefaultLayoutProps> = (props) => {
+const DefaultLayout: React.FunctionComponent<IDefaultLayoutProps> = (props) => {
   const {
     publicRuntimeConfig: {
       i18n: { defaultLocale },
     },
-  } = getConfig<PublicRuntimeConfig>()
+  } = getConfig()
   const locale = useLocale()
   return (
     <>

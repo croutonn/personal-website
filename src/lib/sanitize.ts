@@ -1,4 +1,4 @@
-import { Maybe, MaybeArray, Order, OrderBy } from '@/types'
+import type { Maybe, MaybeArray, IOrder, IOrderBy } from '@/types'
 
 const toSingleValue = <T = unknown>(value: T | Array<T>): Maybe<T> => {
   if (Array.isArray(value)) {
@@ -7,7 +7,7 @@ const toSingleValue = <T = unknown>(value: T | Array<T>): Maybe<T> => {
   return value
 }
 
-const sanitizeOrder = (value: Maybe<MaybeArray<string>>): Order => {
+const sanitizeOrder = (value: Maybe<MaybeArray<string>>): IOrder => {
   const singleValue = toSingleValue(value)
   switch (singleValue) {
     case 'ASC':
@@ -18,7 +18,7 @@ const sanitizeOrder = (value: Maybe<MaybeArray<string>>): Order => {
   }
 }
 
-const sanitizeOrderBy = (value: Maybe<MaybeArray<string>>): OrderBy => {
+const sanitizeOrderBy = (value: Maybe<MaybeArray<string>>): IOrderBy => {
   const singleValue = toSingleValue(value)
   switch (singleValue) {
     case 'date':

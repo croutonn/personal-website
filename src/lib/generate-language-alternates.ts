@@ -1,10 +1,9 @@
-import { NextSeoProps } from 'next-seo'
+import type { NextSeoProps } from 'next-seo'
 import getConfig from 'next/config'
-import { NextRouter } from 'next/router'
+import type { NextRouter } from 'next/router'
 
 import { routeToLocale } from '@/lib/i18n'
 import removeTrailingSlash from '@/lib/remove-trailing-slash'
-import { PublicRuntimeConfig } from '@/types'
 
 const generateLanguageAlternates = (
   router: NextRouter
@@ -14,7 +13,7 @@ const generateLanguageAlternates = (
       i18n: { defaultLocale, locales },
       site: { url: siteUrl },
     },
-  } = getConfig<PublicRuntimeConfig>()
+  } = getConfig()
   const { asPath, basePath } = router
   const normalizedBasePath = removeTrailingSlash(basePath)
   const locale = routeToLocale(asPath)

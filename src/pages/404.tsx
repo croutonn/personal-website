@@ -1,14 +1,14 @@
-import { GetStaticProps, NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import { useTranslation } from 'react-i18next'
 
 import { loadResources } from '@/lib/i18n'
-import { PageParams, PageProps } from '@/types'
+import type { IPageParams, IPageProps } from '@/types'
 
-type Custom404Params = PageParams
+type ICustom404Params = IPageParams
 
-type Custom404Props = PageProps
+type ICustom404Props = IPageProps
 
-const Custom404: NextPage<Custom404Props> = () => {
+const Custom404: NextPage<ICustom404Props> = () => {
   const { t } = useTranslation()
   return (
     <>
@@ -19,15 +19,15 @@ const Custom404: NextPage<Custom404Props> = () => {
 }
 
 const getStaticProps: GetStaticProps<
-  Custom404Props,
-  Custom404Params
+  ICustom404Props,
+  ICustom404Params
 > = async () => {
   const i18nResource = await loadResources({
     namespaces: ['common', '404'],
     noMinify: true,
   })
 
-  const props: Custom404Props = { i18n: i18nResource }
+  const props: ICustom404Props = { i18n: i18nResource }
   return {
     props,
   }
@@ -35,4 +35,4 @@ const getStaticProps: GetStaticProps<
 
 export default Custom404
 export { getStaticProps }
-export type { Custom404Params, Custom404Props }
+export type { ICustom404Params, ICustom404Props }

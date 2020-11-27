@@ -1,30 +1,25 @@
-import { GetStaticProps } from 'next'
+import type { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
 import getConfig from 'next/config'
-
-import { useSEO } from '@/hooks'
-import { GetUserQuery, githubClient } from '@/services/github'
-import {
-  Locale,
-  Page,
-  PageParams,
-  PageProps,
-  PublicRuntimeConfig,
-} from '@/types'
-import { getI18nStaticProps } from '@/lib/i18n'
 import { Trans } from 'react-i18next'
 
-type HomePageParams = PageParams
+import { useSEO } from '@/hooks'
+import { getI18nStaticProps } from '@/lib/i18n'
+import githubClient from '@/services/github/client'
+import type { IGetUserQuery } from '@/services/github/graphql'
+import type { ILocale, IPage, IPageParams, IPageProps } from '@/types'
 
-type HomePageProps = PageProps<{
-  githubUser: GetUserQuery
+type IHomePageParams = IPageParams
+
+type IHomePageProps = IPageProps<{
+  githubUser: IGetUserQuery
 }>
 
-const getStaticProps: GetStaticProps<HomePageProps, HomePageParams> = async (
+const getStaticProps: GetStaticProps<IHomePageProps, IHomePageParams> = async (
   context
 ) => {
   const { props: baseProps } = await getI18nStaticProps({
-    locale: context.params?.locale as Locale,
+    locale: context.params?.locale as ILocale,
     namespaces: ['common', 'home'],
   })
   const githubUserId = process.env.NEXT_PUBLIC_GITHUB_USER as string
@@ -38,8 +33,8 @@ const getStaticProps: GetStaticProps<HomePageProps, HomePageParams> = async (
   }
 }
 
-const HomePage: Page<HomePageProps> = (props) => {
-  const { publicRuntimeConfig } = getConfig<PublicRuntimeConfig>()
+const HomePage: IPage<IHomePageProps> = (props) => {
+  const { publicRuntimeConfig } = getConfig()
 
   const githubUserId = process.env.NEXT_PUBLIC_GITHUB_USER as string
   const githubGetUser = githubClient.useGetUser(
@@ -274,4 +269,4 @@ const HomePage: Page<HomePageProps> = (props) => {
 
 export default HomePage
 export { getStaticProps }
-export type { HomePageParams, HomePageProps }
+export type { IHomePageParams as IParams, IHomePageProps as IProps }

@@ -1,16 +1,25 @@
-type AlternateLinkData = { href: string; hrefLang: string; title: string }
-
-type Locale = 'ja' | 'en'
-
-type I18nPublicConfig = {
-  locales: Locale[]
-  defaultLocale: Locale
-  localeMap: Record<Locale, string>
+interface IAlternateLinkData {
+  href: string
+  hrefLang: string
+  title: string
 }
 
-type I18nServerConfig = {
+type ILocale = 'ja' | 'en'
+
+interface II18nPublicConfig {
+  locales: ILocale[]
+  defaultLocale: ILocale
+  localeMap: Record<ILocale, string>
+}
+
+interface II18nServerConfig {
   defaultNamespaces: string[]
   resourceDir: string
 }
 
-export type { AlternateLinkData, Locale, I18nPublicConfig, I18nServerConfig }
+export type {
+  IAlternateLinkData,
+  ILocale,
+  II18nPublicConfig,
+  II18nServerConfig,
+}

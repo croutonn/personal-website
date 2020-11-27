@@ -34,7 +34,7 @@
     }
   },
   "lint-staged": {
-    "*": [
+    "*.@(js|jsx|ts|tsx|json|md|graphql)": [
       "prettier --ignore-path .gitignore --write"
     ],
     "*.@(js|jsx)": [
@@ -44,7 +44,7 @@
     "*.@(ts|tsx)": [
       "eslint --ignore-path .gitignore",
       "stylelint --ignore-path .gitignore",
-      "tsc --pretty --noEmit"
+      "bash -c 'yarn type-check'"
     ]
   },
   "resolutions": {

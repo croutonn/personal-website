@@ -1,34 +1,32 @@
-import { GetStaticProps, GetStaticPaths } from 'next'
+import type { GetStaticProps, GetStaticPaths } from 'next'
 import { NextSeo } from 'next-seo'
-
-import { useSEO } from '@/hooks'
-import { Authors } from '@/lib/constants'
-import {
-  BlogPost,
-  Locale,
-  Page,
-  PageParams,
-  PageProps,
-  PublicRuntimeConfig,
-  ServerRuntimeConfig,
-} from '@/types'
-import { getI18nStaticProps } from '@/lib/i18n'
 import getConfig from 'next/config'
-import { getBlogPosts } from '@/lib/blog'
+
 import Post from '@/components/organisms/Post'
+import { useSEO } from '@/hooks'
+import { getBlogPosts } from '@/lib/blog'
+import { Authors } from '@/lib/constants'
+import { getI18nStaticProps } from '@/lib/i18n'
+import type {
+  IBlogPost,
+  ILocale,
+  IPage,
+  IPageParams,
+  IPageProps,
+} from '@/types'
 
-type BlogPostPageParams = PageParams<{
+type IBlogPostPageParams = IPageParams<{
   slug: string
 }>
 
-type BlogPostPageProps = PageProps<{
+type IBlogPostPageProps = IPageProps<{
   slug: string
-  post: BlogPost
+  post: IBlogPost
   notFoundLocales: string[]
-  locale: Locale
+  locale: ILocale
 }>
 
-const BlogPostPage: Page<BlogPostPageProps> = (props) => {
+const BlogPostPage: IPage<IBlogPostPageProps> = (props) => {
   const seo = useSEO(
     {
       title: props.post.title,
@@ -51,12 +49,12 @@ const BlogPostPage: Page<BlogPostPageProps> = (props) => {
   )
 }
 
-const getStaticPaths: GetStaticPaths<BlogPostPageParams> = async () => {
+const getStaticPaths: GetStaticPaths<IBlogPostPageParams> = async () => {
   const {
     publicRuntimeConfig: {
       i18n: { defaultLocale },
     },
-  } = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
+  } = getConfig()
 
   const posts = await getBlogPosts()
   const slugs = new Set<string>()
@@ -76,17 +74,17 @@ const getStaticPaths: GetStaticPaths<BlogPostPageParams> = async () => {
 }
 
 const createGetStaticProps = (
-  targetLocale: Locale
-): GetStaticProps<BlogPostPageProps, BlogPostPageParams> => {
+  targetLocale: ILocale
+): GetStaticProps<IBlogPostPageProps, IBlogPostPageParams> => {
   const {
     publicRuntimeConfig: {
       i18n: { locales, defaultLocale },
     },
-  } = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
+  } = getConfig()
 
   const getStaticProps: GetStaticProps<
-    BlogPostPageProps,
-    BlogPostPageParams
+    IBlogPostPageProps,
+    IBlogPostPageParams
   > = async (context) => {
     if (!context.params) {
       throw new Error('Missing parameter.')
@@ -101,9 +99,9 @@ const createGetStaticProps = (
       (post) => post.slug === pageSlug
     )
     const pagePost = posts.find((post) => post.locale === targetLocale)
-    const notFoundLocales = locales.filter((locale) => {
-      !posts.find((post) => post.locale === locale)
-    })
+    const notFoundLocales = locales.filter(
+      (locale) => !posts.find((post) => post.locale === locale)
+    )
     const props = {
       ...baseProps,
       slug: context.params.slug,
@@ -140,17 +138,18 @@ const createGetStaticProps = (
   return getStaticProps
 }
 
-const getStaticProps: GetStaticProps<BlogPostPageProps, BlogPostPageParams> = (
-  context
-) => {
+const getStaticProps: GetStaticProps<
+  IBlogPostPageProps,
+  IBlogPostPageParams
+> = (context) => {
   const {
     publicRuntimeConfig: {
       i18n: { defaultLocale },
     },
-  } = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
+  } = getConfig()
   return createGetStaticProps(defaultLocale)(context)
 }
 
 export default BlogPostPage
 export { createGetStaticProps, getStaticPaths, getStaticProps }
-export type { BlogPostPageParams as Params, BlogPostPageProps as Props }
+export type { IBlogPostPageParams as IParams, IBlogPostPageProps as IProps }

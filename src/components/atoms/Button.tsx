@@ -1,8 +1,8 @@
-type ButtonProps = {
+interface IButtonProps {
   text: string
 }
 
-const Button: React.FunctionComponent<ButtonProps> = (props) => (
+const Button: React.FunctionComponent<IButtonProps> = (props) => (
   <button type="button">{props.text}</button>
 )
 

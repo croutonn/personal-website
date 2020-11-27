@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
 
 import { markdownToReactNode } from '@/lib/markdown'
-import { BlogPost } from '@/types'
+import type { IBlogPost } from '@/types'
 
-type PostProps = {
-  post: BlogPost
+interface IPostProps {
+  post: IBlogPost
 }
 
-const Post: React.FunctionComponent<PostProps> = (props) => {
+const Post: React.FunctionComponent<IPostProps> = (props) => {
   const postContent = useMemo(() => markdownToReactNode(props.post.content), [
     props.post.content,
   ])

@@ -1,20 +1,20 @@
 import { DefaultSeo } from 'next-seo'
 import getConfig from 'next/config'
-import { AppType } from 'next/dist/next-server/lib/utils'
+import type { AppType } from 'next/dist/next-server/lib/utils'
+import { useRouter } from 'next/router'
+import { useMemo } from 'react'
+import { I18nextProvider, useSSR } from 'react-i18next'
 
 import { DefaultLayout } from '@/layouts'
-import { Page, PublicRuntimeConfig } from '@/types'
-import { I18nextProvider, useSSR } from 'react-i18next'
 import i18n, { LocaleProvider, routeToLocale } from '@/lib/i18n'
-import { useMemo } from 'react'
-import { useRouter } from 'next/router'
+import type { IPage } from '@/types'
 
 const App: AppType = (props) => {
   const {
     publicRuntimeConfig: { seo: seoDefaultConfig },
-  } = getConfig<PublicRuntimeConfig>()
+  } = getConfig()
 
-  const Layout = (props.Component as Page).layout || DefaultLayout
+  const Layout = (props.Component as IPage).layout || DefaultLayout
   const router = useRouter()
   const locale = useMemo(() => routeToLocale(router.asPath), [router.asPath])
 

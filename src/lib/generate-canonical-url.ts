@@ -1,10 +1,9 @@
 import getConfig from 'next/config'
-import { NextRouter } from 'next/router'
+import type { NextRouter } from 'next/router'
 
 import { routeToLocale } from '@/lib/i18n'
 import removeTrailingSlash from '@/lib/remove-trailing-slash'
 import { removeRootDirPath } from '@/lib/string-utils'
-import { PublicRuntimeConfig } from '@/types'
 
 const generateCanonicalURL = (
   router: NextRouter,
@@ -15,7 +14,7 @@ const generateCanonicalURL = (
       site: { url: siteUrl },
       i18n: { defaultLocale },
     },
-  } = getConfig<PublicRuntimeConfig>()
+  } = getConfig()
 
   const { asPath, basePath } = router
   const locale = routeToLocale(router)

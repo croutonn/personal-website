@@ -2,19 +2,17 @@ import getConfig from 'next/config'
 
 import { readMarkdown } from '@/lib/markdown'
 import client from '@/services/github/client'
-import {
-  GetDirectoriesWithFilesQuery,
-  GetFileQuery,
+import type {
+  IGetDirectoriesWithFilesQuery,
+  IGetFileQuery,
 } from '@/services/github/graphql'
-import {
-  BlogPost,
-  BlogPostFrontMatter,
-  BlogPostPreview,
-  isNotFalsy,
-  Locale,
+import { isNotFalsy } from '@/types'
+import type {
+  IBlogPost,
+  IBlogPostFrontMatter,
+  IBlogPostPreview,
+  ILocale,
   Maybe,
-  PublicRuntimeConfig,
-  ServerRuntimeConfig,
 } from '@/types'
 
 const compareByDescDate = <
@@ -30,10 +28,10 @@ const compareByDescDate = <
 
 const readPostData = (
   text: Maybe<string>
-): Maybe<{ frontMatter: BlogPostFrontMatter; body: string }> => {
+): Maybe<{ frontMatter: IBlogPostFrontMatter; body: string }> => {
   if (!text) return null
   const markdownData = readMarkdown<
-    Omit<BlogPostFrontMatter, 'publishedAt' | 'updatedAt'> & {
+    Omit<IBlogPostFrontMatter, 'publishedAt' | 'updatedAt'> & {
       publishedAt: string
       updatedAt?: string
     }
@@ -67,8 +65,8 @@ const readPostData = (
 }
 
 const convertToPosts = (
-  queryResult: GetDirectoriesWithFilesQuery
-): BlogPost[] => {
+  queryResult: IGetDirectoriesWithFilesQuery
+): IBlogPost[] => {
   if (
     !queryResult.repository ||
     !queryResult.repository.object ||
@@ -82,7 +80,7 @@ const convertToPosts = (
     publicRuntimeConfig: {
       i18n: { defaultLocale },
     },
-  } = getConfig<PublicRuntimeConfig>()
+  } = getConfig()
 
   return queryResult.repository.object.entries
     .map((directory) => {
@@ -105,7 +103,7 @@ const convertToPosts = (
           id: file.object.id,
           // filename to locale
           locale: (file.name.split('.').slice(-2)[0] ||
-            defaultLocale) as Locale,
+            defaultLocale) as ILocale,
           slug,
           content: postData.body,
           ...postData.frontMatter,
@@ -118,9 +116,9 @@ const convertToPosts = (
 }
 
 const convertToPost = (
-  queryResult: GetFileQuery,
-  postInfo: { slug: string; locale: Locale }
-): Maybe<BlogPost> => {
+  queryResult: IGetFileQuery,
+  postInfo: { slug: string; locale: ILocale }
+): Maybe<IBlogPost> => {
   if (
     !queryResult ||
     !queryResult.repository ||
@@ -130,7 +128,7 @@ const convertToPost = (
     return null
   }
   const content = queryResult.repository.object.text || ''
-  const postData = readMarkdown<BlogPostFrontMatter>(content)
+  const postData = readMarkdown<IBlogPostFrontMatter>(content)
   if (!postData) return null
 
   return {
@@ -141,13 +139,13 @@ const convertToPost = (
   }
 }
 
-const blogPostsCache: BlogPost[] = []
-const getBlogPosts = async (): Promise<BlogPost[]> => {
+const blogPostsCache: IBlogPost[] = []
+const getBlogPosts = async (): Promise<IBlogPost[]> => {
   if (blogPostsCache.length > 0) return blogPostsCache
 
   const {
     serverRuntimeConfig: { blog: blogConfig },
-  } = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()
+  } = getConfig()
   const response = await client.GetDirectoriesWithFiles({
     owner: blogConfig.repository.owner,
     name: blogConfig.repository.name,
@@ -158,9 +156,9 @@ const getBlogPosts = async (): Promise<BlogPost[]> => {
   return posts
 }
 
-const postToPostPreview = (post: BlogPost): BlogPostPreview => {
-  const postPreview: BlogPostPreview & {
-    content?: BlogPost['content']
+const postToPostPreview = (post: IBlogPost): IBlogPostPreview => {
+  const postPreview: IBlogPostPreview & {
+    content?: IBlogPost['content']
   } = {
     ...post,
   }

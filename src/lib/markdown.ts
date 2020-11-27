@@ -1,7 +1,7 @@
 import rehypePrism from '@mapbox/rehype-prism'
 import frontMatter from 'front-matter'
 import LRU from 'lru-cache'
-import { createElement, Fragment, ReactNode } from 'react'
+import { createElement, Fragment } from 'react'
 import rehypeReact from 'rehype-react'
 import katex from 'remark-html-katex'
 import math from 'remark-math'
@@ -10,7 +10,7 @@ import remarkRehype from 'remark-rehype'
 import unified from 'unified'
 
 import { IS_SERVER } from '@/lib/constants'
-import { Maybe } from '@/types'
+import type { Maybe } from '@/types'
 
 const processor = unified()
   .use(markdown)
@@ -20,7 +20,7 @@ const processor = unified()
   .use(rehypePrism)
   .use(rehypeReact, { createElement, Fragment })
 
-const cache = new LRU<string, ReactNode>({
+const cache = new LRU<string, React.ReactNode>({
   max: parseInt(
     (IS_SERVER
       ? process.env.SERVER_MD_COMPILE_CACHE_MAX_SIZE
@@ -36,12 +36,12 @@ const cache = new LRU<string, ReactNode>({
   length: (_n, key) => (key || '').length,
 })
 
-const markdownToReactNode = (markdownText: string): ReactNode => {
+const markdownToReactNode = (markdownText: string): React.ReactNode => {
   const cachedValue = cache.get(markdownText)
   if (cachedValue) {
     return cachedValue
   }
-  const value = processor.processSync(markdownText).result as ReactNode
+  const value = processor.processSync(markdownText).result as React.ReactNode
   cache.set(markdownText, value)
   return value
 }

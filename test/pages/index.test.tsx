@@ -1,4 +1,4 @@
-import { NextRouter } from 'next/router'
+import type { NextRouter } from 'next/router'
 import React from 'react'
 
 import * as HomePage from '@/pages'
@@ -7,13 +7,13 @@ import { render, fireEvent, withMockedRouter } from '../test-utils'
 
 describe('Home page', () => {
   let router: Partial<NextRouter>
-  let staticProps: HomePage.HomePageProps
+  let staticProps: HomePage.IProps
   let pageComponent: React.ReactElement
 
   beforeAll(async () => {
     const props = (await HomePage.getStaticProps({
       params: { locale: 'ja' },
-    })) as { props: HomePage.HomePageProps; revalidate?: number | boolean }
+    })) as { props: HomePage.IProps; revalidate?: number | boolean }
     staticProps = props.props
     router = {
       asPath: '/',

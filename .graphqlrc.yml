@@ -19,9 +19,13 @@ extensions:
           - 'plugin-typescript-swr'
     config:
       avoidOptionals: true
+      documentMode: documentNodeImportFragments
+      useTypeImports: true
       namingConvention:
         typeNames: pascal-case#pascalCase
         transformUnderscore: true
+      typesPrefix: I
+      declarationKind: interface
       scalars:
         DateTime: string
         JSON: unknown
@@ -36,7 +40,6 @@ extensions:
         PreciseDateTime: string
         URI: string
         X509Certificate: string
-      documentMode: documentNode
       autogenSWRKey: true
       excludeQueries:
         - GetDirectoriesWithFiles

@@ -1,16 +1,18 @@
-import { ParsedUrlQuery } from 'querystring'
+import type { ParsedUrlQuery } from 'querystring'
 
-import { Resource } from 'i18next'
-import { NextPage } from 'next'
-import { DefaultSeoProps } from 'next-seo'
-import { FunctionComponent } from 'react'
+import type { Resource } from 'i18next'
+import type { NextPage } from 'next'
+import type { DefaultSeoProps } from 'next-seo'
+import type { FunctionComponent } from 'react'
 
-import { Authors } from '@/lib/constants'
-import { I18nPublicConfig, I18nServerConfig, Locale } from '@/types/i18n'
+import type { Authors } from '@/lib/constants'
+import type { II18nPublicConfig, II18nServerConfig, ILocale } from '@/types'
 
-type BaseProps = Record<string, unknown>
+interface IBaseProps {
+  [key: string]: unknown
+}
 
-type SiteConfig = {
+interface ISiteConfig {
   name: string
   type: 'website' | 'blog'
   siteName: string
@@ -25,15 +27,15 @@ type SiteConfig = {
   browserConfig?: string
 }
 
-type PublicRuntimeConfig = {
-  site: SiteConfig
+interface IPublicRuntimeConfig {
+  site: ISiteConfig
   titleTemplate: string
   seo: DefaultSeoProps
-  i18n: I18nPublicConfig
+  i18n: II18nPublicConfig
 }
 
-type ServerRuntimeConfig = {
-  i18n: I18nServerConfig
+interface IServerRuntimeConfig {
+  i18n: II18nServerConfig
   blog: {
     repository: {
       owner: string
@@ -44,24 +46,24 @@ type ServerRuntimeConfig = {
   }
 }
 
-type Page<P = unknown, LP = P, IP = P> = NextPage<P, IP> & {
+type IPage<P = unknown, LP = P, IP = P> = NextPage<P, IP> & {
   layout?: FunctionComponent<LP>
 }
 
-type PageProps<
+type IPageProps<
   P extends Record<string, unknown> = Record<string, unknown>
 > = P & { i18n: Resource }
 
-type PageParams<P extends ParsedUrlQuery = ParsedUrlQuery> = P & {
-  locale: Locale
+type IPageParams<P extends ParsedUrlQuery = ParsedUrlQuery> = P & {
+  locale: ILocale
 }
 
 export type {
-  BaseProps,
-  Page,
-  PageProps,
-  PageParams,
-  PublicRuntimeConfig,
-  ServerRuntimeConfig,
-  SiteConfig,
+  IBaseProps,
+  IPage,
+  IPageProps,
+  IPageParams,
+  IPublicRuntimeConfig,
+  IServerRuntimeConfig,
+  ISiteConfig,
 }

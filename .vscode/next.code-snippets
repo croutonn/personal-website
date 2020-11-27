@@ -4,9 +4,8 @@
     "prefix": "nrconf",
     "body": [
       "import getConfig from 'next/config'",
-      "import { PublicRuntimeConfig, ServerRuntimeConfig } from '@/types'",
       "",
-      "const { publicRuntimeConfig, serverRuntimeConfig } = getConfig<PublicRuntimeConfig, ServerRuntimeConfig>()"
+      "const { publicRuntimeConfig, serverRuntimeConfig } = getConfig()"
     ],
     "description": "Next.js Runtime Config"
   }

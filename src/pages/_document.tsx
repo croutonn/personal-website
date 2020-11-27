@@ -1,8 +1,8 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
-type DocumentProps = unknown
+type IDocumentProps = unknown
 
-class AppDocument extends Document<DocumentProps> {
+class AppDocument extends Document<IDocumentProps> {
   render(): JSX.Element {
     return (
       <Html>

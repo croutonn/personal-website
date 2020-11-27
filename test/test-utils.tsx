@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react'
 import { RouterContext } from 'next/dist/next-server/lib/router-context'
-import { NextRouter } from 'next/router'
+import type { NextRouter } from 'next/router'
 import React from 'react'
 
-const isReactElement = (x: unknown): x is React.ReactElement =>
+const isReactElement = (x: any): x is React.ReactElement =>
   x && typeof x === 'object' && 'type' in x && 'props' in x && 'key' in x
 
 const Providers: React.FunctionComponent = ({ children }) => {

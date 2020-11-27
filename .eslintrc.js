@@ -30,6 +30,31 @@ module.exports = {
             exceptions: ['Component', 'props.Component', 'NextSeo'],
           },
         ],
+        '@typescript-eslint/consistent-type-imports': ['error'],
+        '@typescript-eslint/naming-convention': [
+          'error',
+          {
+            selector: 'variable',
+            format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+          },
+          {
+            selector: 'function',
+            format: ['camelCase', 'PascalCase'],
+          },
+          {
+            selector: 'typeLike',
+            format: ['PascalCase'],
+            prefix: ['I'],
+            filter: {
+              regex: '^(Falsy|Maybe\\w*|Nullish)$',
+              match: false,
+            },
+          },
+          {
+            selector: ['class', 'typeParameter'],
+            format: ['PascalCase'],
+          },
+        ],
       },
     },
     {
@@ -52,7 +77,14 @@ module.exports = {
         'no-irregular-whitespace': 'off',
         '@croutonn/exports-last': 'off',
         '@croutonn/group-exports': 'off',
+        '@typescript-eslint/naming-convention': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
+      },
+    },
+    {
+      files: ['*.js'],
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
       },
     },
   ],
