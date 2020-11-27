@@ -111,8 +111,13 @@ const config = {
   redirects: async () => {
     return [
       {
-        source: '/ja',
+        source: `/${i18n.defaultLocale}`,
         destination: '/',
+        permanent: true,
+      },
+      {
+        source: `/${i18n.defaultLocale}/:path*`,
+        destination: '/:path*',
         permanent: true,
       },
     ]

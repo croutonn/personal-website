@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "ja",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/ja/*",
+      "destination": "/*",
+      "permanent": true
+    }
+  ]
+}
