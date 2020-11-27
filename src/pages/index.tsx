@@ -13,7 +13,6 @@ import {
 } from '@/types'
 import { getI18nStaticProps } from '@/lib/i18n'
 import { Trans } from 'react-i18next'
-import Head from 'next/head'
 
 type HomePageParams = PageParams
 
@@ -55,9 +54,7 @@ const HomePage: Page<HomePageProps> = (props) => {
 
   return (
     <div className="container">
-      <Head>
-        <NextSeo {...seo} />
-      </Head>
+      <NextSeo {...seo} />
 
       <main>
         <h1 className="title">

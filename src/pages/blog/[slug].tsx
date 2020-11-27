@@ -1,6 +1,5 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { NextSeo } from 'next-seo'
-import { useMemo } from 'react'
 
 import { useSEO } from '@/hooks'
 import { Authors } from '@/lib/constants'
@@ -16,9 +15,6 @@ import {
 import { getI18nStaticProps } from '@/lib/i18n'
 import getConfig from 'next/config'
 import { getBlogPosts } from '@/lib/blog'
-import { useRouter } from 'next/router'
-import Head from 'next/head'
-import generateCanonicalURL from '@/lib/generate-canonical-url'
 import Post from '@/components/organisms/Post'
 
 type BlogPostPageParams = PageParams<{
@@ -33,14 +29,6 @@ type BlogPostPageProps = PageProps<{
 }>
 
 const BlogPostPage: Page<BlogPostPageProps> = (props) => {
-  const {
-    publicRuntimeConfig: {
-      site: { url: siteUrl },
-      i18n: { defaultLocale },
-    },
-  } = getConfig<PublicRuntimeConfig>()
-  const router = useRouter()
-
   const seo = useSEO(
     {
       title: props.post.title,
@@ -55,22 +43,8 @@ const BlogPostPage: Page<BlogPostPageProps> = (props) => {
     props.notFoundLocales
   )
 
-  const isFallbackContent = useMemo(
-    () => props.locale !== props.post.locale && props.locale !== defaultLocale,
-    [props.locale, props.post.locale, defaultLocale]
-  )
-  const canonicalUrl = useMemo(
-    () => generateCanonicalURL(router, props.notFoundLocales),
-    [router, props.notFoundLocales]
-  )
-
   return (
     <>
-      {isFallbackContent && (
-        <Head>
-          <link rel="canonical" href={canonicalUrl} />
-        </Head>
-      )}
       <NextSeo {...seo} />
       <Post post={props.post} />
     </>

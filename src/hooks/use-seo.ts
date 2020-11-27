@@ -32,10 +32,12 @@ const useSEO = (
     const title = seoOptions.title || seoOptions.openGraph?.title
     const description =
       seoOptions.description || seoOptions.openGraph?.description
-    const canonical = generateCanonicalURL(router, excludeLocales)
+    const canonical =
+      seoOptions.canonical || generateCanonicalURL(router, excludeLocales)
     const openGraph = createOpenGraphConfiguration(router)
     const languageAlternates = createLanguageAlternatesConfiguration(router)
     return {
+      canonical,
       openGraph: {
         ...openGraph,
         url: canonical,
