@@ -13,30 +13,38 @@
     "analyze:open-client": "open .next/analyze/server.html",
     "analyze:open-server": "open .next/analyze/client.html",
     "type-check": "tsc --pretty --noEmit",
-    "format": "prettier --write .",
-    "lint:script": "eslint . --ext ts --ext tsx --ext js",
-    "lint:style": "stylelint '**/*.{js,jsx,ts,tsx}'",
-    "lint-all": "yarn lint:script && yarn lint:style",
+    "format": "prettier --ignore-path .gitignore --write .",
+    "lint:script": "eslint . --ignore-path .gitignore --ext ts --ext tsx --ext js",
+    "lint:style": "stylelint --ignore-path .gitignore '**/*.{js,jsx,ts,tsx}'",
+    "lint-all": "concurrently \"yarn lint:script\" \"yarn lint:style\"",
     "fix:script": "yarn lint:script --fix",
     "fix:style": "yarn lint:style --fix",
-    "fix:all": "yarn lint:fix && yarn lint:fix",
+    "fix:all": "concurrently \"yarn fix:script\" \"yarn fix:style\"",
     "test": "dotenv -e .env.local jest",
     "test:watch": "dotenv -e .env.local jest --watch",
     "test:coverage": "dotenv -e .env.local jest --coverage",
-    "test-all": "yarn lint-all && yarn type-check && yarn test",
+    "test-all": "concurrently \"yarn lint-all\" \"yarn type-check\" && yarn test",
     "graphql:codegen": "dotenv -e .env.local graphql-codegen --config .graphqlrc.yml",
     "graphql:fetch-schema": "mkdir -p schemas && curl -o schemas/github.graphql https://developer.github.com/v4/public_schema/schema.public.graphql"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "yarn run type-check"
+      "pre-push": "yarn test"
     }
   },
   "lint-staged": {
+    "*": [
+      "prettier --ignore-path .gitignore --write"
+    ],
+    "*.@(js|jsx)": [
+      "eslint --ignore-path .gitignore",
+      "stylelint --ignore-path .gitignore"
+    ],
     "*.@(ts|tsx)": [
-      "yarn lint-all",
-      "yarn format"
+      "eslint --ignore-path .gitignore",
+      "stylelint --ignore-path .gitignore",
+      "tsc --pretty --noEmit"
     ]
   },
   "resolutions": {

@@ -1,9 +1,0 @@
-**/node_modules/*
-/.github/*
-/.next/*
-/out/*
-/public/*
-/coverage/*
-/storybook-static/*
-/src/pages/*
-/.linaria-cache/*

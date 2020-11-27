@@ -1,7 +1,0 @@
-node_modules
-.linaria-cache
-.next
-yarn.lock
-package-lock.json
-public
-coverage
