@@ -1,5 +1,11 @@
+import type { Node } from 'unist'
+
 import type { Authors } from '@/lib/constants'
 import type { ILocale } from '@/types'
+
+interface IHastNode extends Node {
+  children?: IHastNode[]
+}
 
 type IOrder = 'ASC' | 'DESC'
 type IOrderBy = 'date'
@@ -40,7 +46,7 @@ interface IBlogPostPreview extends IBlogPostFrontMatter {
 }
 
 interface IBlogPost extends IBlogPostPreview {
-  content: string
+  content: Node
 }
 
 export type {
@@ -49,6 +55,7 @@ export type {
   IBlogPostPreview,
   IGetBlogPostOptions,
   IGetBlogPostPreviewsOptions,
+  IHastNode,
   IOrder,
   IOrderBy,
 }

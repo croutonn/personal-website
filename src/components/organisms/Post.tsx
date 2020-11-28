@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { markdownToReactNode } from '@/lib/markdown'
+import hastToReactNode from '@/lib/hast-to-react'
 import type { IBlogPost } from '@/types'
 
 interface IPostProps {
@@ -8,7 +8,7 @@ interface IPostProps {
 }
 
 const Post: React.FunctionComponent<IPostProps> = (props) => {
-  const postContent = useMemo(() => markdownToReactNode(props.post.content), [
+  const postContent = useMemo(() => hastToReactNode(props.post.content), [
     props.post.content,
   ])
 

@@ -1,6 +1,5 @@
 import getConfig from 'next/config'
 
-import { readMarkdown } from '@/lib/markdown'
 import client from '@/services/github/client'
 import type {
   IGetDirectoriesWithFilesQuery,
@@ -11,6 +10,7 @@ import type {
   IBlogPost,
   IBlogPostFrontMatter,
   IBlogPostPreview,
+  IHastNode,
   ILocale,
   Maybe,
 } from '@/types'
@@ -28,22 +28,22 @@ const compareByDescDate = <
 
 const readPostData = (
   text: Maybe<string>
-): Maybe<{ frontMatter: IBlogPostFrontMatter; body: string }> => {
+): Maybe<{ attributes: IBlogPostFrontMatter; body: IHastNode }> => {
   if (!text) return null
-  const markdownData = readMarkdown<
-    Omit<IBlogPostFrontMatter, 'publishedAt' | 'updatedAt'> & {
-      publishedAt: string
-      updatedAt?: string
-    }
-  >(text)
-  if (!markdownData) {
+  let json: {
+    attributes: IBlogPostFrontMatter
+    body: IHastNode
+  }
+  try {
+    json = JSON.parse(text)
+  } catch (_) {
     return null
   }
   const normalizedFrontMatter = {
-    ...markdownData.attributes,
-    publishedAt: new Date(markdownData.attributes.publishedAt).getTime(),
-    updatedAt: markdownData.attributes.updatedAt
-      ? new Date(markdownData.attributes.updatedAt).getTime()
+    ...json.attributes,
+    publishedAt: new Date(json.attributes.publishedAt).getTime(),
+    updatedAt: json.attributes.updatedAt
+      ? new Date(json.attributes.updatedAt).getTime()
       : undefined,
   }
   if (!normalizedFrontMatter.updatedAt) {
@@ -59,8 +59,8 @@ const readPostData = (
     delete normalizedFrontMatter.ogImage.imageUrl
   }
   return {
-    body: markdownData.body,
-    frontMatter: normalizedFrontMatter,
+    body: json.body,
+    attributes: normalizedFrontMatter,
   }
 }
 
@@ -92,7 +92,10 @@ const convertToPosts = (
       }
       const slug = directory.name
       return directory.object.entries.map((file) => {
-        if (file.object?.__typename !== 'Blob') {
+        if (
+          file.object?.__typename !== 'Blob' ||
+          !file.name.endsWith('.json')
+        ) {
           return null
         }
 
@@ -106,7 +109,7 @@ const convertToPosts = (
             defaultLocale) as ILocale,
           slug,
           content: postData.body,
-          ...postData.frontMatter,
+          ...postData.attributes,
         }
       })
     })
@@ -127,8 +130,7 @@ const convertToPost = (
   ) {
     return null
   }
-  const content = queryResult.repository.object.text || ''
-  const postData = readMarkdown<IBlogPostFrontMatter>(content)
+  const postData = readPostData(queryResult.repository.object.text)
   if (!postData) return null
 
   return {
