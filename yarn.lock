@@ -1371,9 +1371,9 @@
     tslib "~2.0.1"
 
 "@graphql-tools/delegate@^7.0.0", "@graphql-tools/delegate@^7.0.1":
-  version "7.0.5"
-  resolved "https://registry.yarnpkg.com/@graphql-tools/delegate/-/delegate-7.0.5.tgz#624a536255ec4adee7f237821a30003fcb41f7cb"
-  integrity sha512-wkB/L9cRxlPB4m9k9WQJZYPbnRxfEu2bkxvI9pVGHMsmoQxMZiM2GkhCBHDTBYJb7cxCS6Wv3LJb1w0iEqw24w==
+  version "7.0.6"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/delegate/-/delegate-7.0.6.tgz#dfead3ee89db9f6622ae159a699c4915a825cff0"
+  integrity sha512-KqhES4UFOyEhNkvcyv12y9mklKX3eMa43xS6VbdiXlTqsXdzJ7BaXHFDZPhiMhFIEs070HQE38CGG12SREfTXg==
   dependencies:
     "@ardatan/aggregate-error" "0.0.6"
     "@graphql-tools/batch-execute" "^7.0.0"
@@ -1456,9 +1456,9 @@
     valid-url "1.0.9"
 
 "@graphql-tools/merge@^6", "@graphql-tools/merge@^6.0.0", "@graphql-tools/merge@^6.2.5":
-  version "6.2.5"
-  resolved "https://registry.yarnpkg.com/@graphql-tools/merge/-/merge-6.2.5.tgz#a03d6711f2a468b8de97c0fe9092469280ca66c9"
-  integrity sha512-T2UEm7L5MeS1ggbGKBkdV9kTqLqSHQM13RrjPzIAYzkFL/mK837sf+oq8h2+R8B+senuHX8akUhMTcU85kcMvw==
+  version "6.2.6"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/merge/-/merge-6.2.6.tgz#f10b8958523687440536ecf166f2959d2f094d0f"
+  integrity sha512-G6x0QlIzFHoJ3dyF9a4gxmBtaEYJ+EoAAGqXHsE/drRr58K1jscQdfKZdF1wZWZgxkgakHqgt1+oFMeQg/O6ug==
   dependencies:
     "@graphql-tools/schema" "^7.0.0"
     "@graphql-tools/utils" "^7.0.0"
@@ -5839,12 +5839,11 @@ graphql-language-service-interface@2.4.2:
     vscode-languageserver-types "^3.15.1"
 
 graphql-language-service-parser@^1.6.4:
-  version "1.6.4"
-  resolved "https://registry.yarnpkg.com/graphql-language-service-parser/-/graphql-language-service-parser-1.6.4.tgz#d5b92db1e50a91cdcf7f54f79253e13455e20257"
-  integrity sha512-Y365zUFfJ1GJ9NeRHb5Z/HBo6EnbuTi187Gkuldwd1YIDc0QcD7kqz6U5g043zd7BI/UZQth13Zd7pElvbb2zw==
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/graphql-language-service-parser/-/graphql-language-service-parser-1.6.5.tgz#5c9d4c48cbf4b66171f9ec5f182041627669e4f4"
+  integrity sha512-Xti3aQfnp7rTYg5dzhUnt3eqs9zbdr0tIC7S02RRcO1J5tWAwqXzv3PpYpWXGar11kD7VzP8amkh81CD4Q/m0Q==
   dependencies:
     graphql-language-service-types "^1.6.3"
-    typescript "^3.9.5"
 
 graphql-language-service-types@^1.6.3:
   version "1.6.3"
@@ -11665,11 +11664,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-
-typescript@^3.9.5:
-  version "3.9.7"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
-  integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 
 typescript@^4.1.2:
   version "4.1.2"
