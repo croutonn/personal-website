@@ -74,7 +74,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@croutonn/eslint-config": "^1.0.14",
-    "@fullhuman/postcss-purgecss": "^3.0.0",
+    "@fullhuman/postcss-purgecss": "^4.0.0",
     "@graphql-codegen/cli": "^1.19.4",
     "@graphql-codegen/typescript": "^1.19.0",
     "@graphql-codegen/typescript-graphql-request": "^2.0.3",
